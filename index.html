@@ -5,102 +5,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>С Днём Рождения, Даша 💖</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-  body {
-    margin: 0;
-    overflow: hidden;
-    height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: url('images/road_bg.jpg') no-repeat center center / cover;
-    position: relative;
-    color: white;
-  }
+body {
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: url('images/dasha_bg.jpg') no-repeat center center / cover;
+  position: relative;
+  color: white;
+}
 
-  h1 {
-    position: absolute;
-    top: 10%;
-    font-size: 3em;
-    text-align: center;
-    text-shadow: 0 0 15px #ff66cc, 0 0 30px #ff66cc;
-    opacity: 0;
-    animation: fadeIn 3s forwards;
-  }
+/* Заголовок */
+h1 {
+  position: absolute;
+  top: 10%;
+  font-size: 3em;
+  text-align: center;
+  color: #ff99cc;
+  text-shadow: 0 0 10px #ff66cc, 0 0 30px #ff66ff;
+  opacity: 0;
+  animation: fadeIn 3s forwards;
+}
 
-  @keyframes fadeIn { to { opacity: 1; } }
+@keyframes fadeIn { to { opacity: 1; } }
 
-  /* Кнопка запуска музыки в стиле liquid glass */
-  #playButton {
-    padding: 15px 35px;
-    font-size: 1.2em;
-    border: none;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
-    color: #fff;
-    cursor: pointer;
-    box-shadow: 0 0 20px rgba(255,102,204,0.5);
-    transition: 0.3s;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+/* Кнопка запуска музыки */
+#playButton {
+  padding: 15px 40px;
+  font-size: 1.3em;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255,102,204,0.6);
+  transition: 0.3s;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
-  #playButton:hover {
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 0 40px rgba(255,102,204,0.9);
-  }
+#playButton:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 0 40px rgba(255,102,204,0.9);
+}
 
-  /* Эквалайзер */
-  #equalizer {
-    display: flex;
-    position: absolute;
-    bottom: 60px;
-    width: 90%;
-    justify-content: space-around;
-    align-items: flex-end;
-  }
+/* Эквалайзер */
+#equalizer {
+  display: flex;
+  position: absolute;
+  bottom: 60px;
+  width: 90%;
+  justify-content: space-around;
+  align-items: flex-end;
+}
 
-  .bar {
-    flex: 1;
-    margin: 0 5px;
-    border-radius: 20px;
-    height: 50px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(12px) saturate(200%);
-    -webkit-backdrop-filter: blur(12px) saturate(200%);
-    box-shadow: 0 0 15px rgba(255,102,204,0.6), inset 0 0 10px rgba(255,255,255,0.2);
-    transition: height 0.1s ease, box-shadow 0.1s ease;
-  }
+.bar {
+  flex: 1;
+  margin: 0 5px;
+  border-radius: 25px;
+  height: 50px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(14px) saturate(220%);
+  -webkit-backdrop-filter: blur(14px) saturate(220%);
+  box-shadow: 0 0 15px rgba(255,102,204,0.6), inset 0 0 10px rgba(255,255,255,0.2);
+  transition: height 0.1s ease, box-shadow 0.1s ease;
+}
 
-  /* Фото эффект */
-  .photo {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    border-radius: 20px;
-    object-fit: cover;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-  }
+/* Фото Даши */
+.photo {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 20px;
+  object-fit: cover;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px rgba(255,102,204,0.8), 0 0 40px rgba(255,102,255,0.5);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
 
-  footer {
-    position: absolute;
-    bottom: 20px;
-    text-align: center;
-    font-size: 14px;
-    color: #aaa;
-  }
+/* Footer */
+footer {
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #ff99cc;
+}
 
-  footer a {
-    color: #ff66cc;
-    text-decoration: none;
-    margin: 0 6px;
-  }
+footer a {
+  color: #ff66cc;
+  text-decoration: none;
+  margin: 0 6px;
+}
 </style>
 </head>
 <body>
@@ -132,9 +138,9 @@ const equalizer = document.getElementById('equalizer');
 const bgm = document.getElementById('bgm');
 const playButton = document.getElementById('playButton');
 
-// Эквалайзер
+// Создание полосок эквалайзера
 const bars = [];
-const numBars = 30;
+const numBars = 25;
 for (let i = 0; i < numBars; i++) {
   const bar = document.createElement('div');
   bar.classList.add('bar');
@@ -142,6 +148,7 @@ for (let i = 0; i < numBars; i++) {
   bars.push(bar);
 }
 
+// Анимация эквалайзера
 function animateEqualizer() {
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const source = audioCtx.createMediaElementSource(bgm);
@@ -164,7 +171,7 @@ function animateEqualizer() {
   renderFrame();
 }
 
-// Фото эффект
+// Анимация фото Даши
 function easeOutQuad(t){return t*(2-t);}
 function easeInQuad(t){return t*t;}
 
@@ -172,14 +179,14 @@ function spawnPhoto() {
   const photo = document.createElement('img');
   photo.src = photos[Math.floor(Math.random() * photos.length)];
   photo.classList.add('photo');
-  photo.style.left = (20 + Math.random() * (window.innerWidth - 40)) + 'px';
+  photo.style.left = (50 + Math.random() * (window.innerWidth - 100)) + 'px';
   document.body.appendChild(photo);
 
   let start = Date.now();
-  const duration = 4000 + Math.random()*2000;
-  const startY = -200; // старт ещё выше
-  const endY = window.innerHeight/2 - 60;
-  const maxScale = 2 + Math.random();
+  const duration = 3500 + Math.random()*2000;
+  const startY = -250;
+  const endY = window.innerHeight/2 - 70;
+  const maxScale = 1.5 + Math.random()*0.5;
 
   function animatePhoto() {
     const now = Date.now();
@@ -217,14 +224,4 @@ function spawnPhoto() {
 // Запуск музыки и эффектов
 function startAudio() {
   bgm.play().then(()=>{
-    animateEqualizer();
-    spawnPhoto();
-    setInterval(spawnPhoto, 2000);
-    playButton.style.display = 'none';
-  }).catch(err=>console.log('Нужен клик для старта аудио:', err));
-}
-
-playButton.addEventListener('click', startAudio);
-</script>
-</body>
-</html>
+    animateEqualizer
