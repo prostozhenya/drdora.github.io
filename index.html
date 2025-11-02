@@ -15,12 +15,10 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #0d0d0d; /* тёмный фон для всей страницы */
+  background-color: #1b1b1b; /* тёмный фон */
   position: relative;
   color: white;
   overflow: hidden;
-  backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
 }
 
 /* Заголовок */
@@ -34,12 +32,7 @@ h1 {
   opacity: 0;
   animation: fadeIn 3s forwards;
 }
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
+@keyframes fadeIn { to { opacity: 1; } }
 
 /* Кнопка запуска музыки */
 #playButton {
@@ -58,7 +51,6 @@ h1 {
   top: 50%;
   transform: translateY(-50%);
 }
-
 #playButton:hover {
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 0 40px rgba(255, 102, 204, 0.9);
@@ -73,25 +65,24 @@ h1 {
   height: 90px;
   border-radius: 20px;
   backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
   background: rgba(255, 102, 204, 0.15);
-  box-shadow:
-    0 0 30px rgba(255, 102, 204, 0.7),
-    inset 0 0 15px rgba(255, 182, 193, 0.5);
+  box-shadow: 0 0 30px rgba(255, 102, 204, 0.7),
+              inset 0 0 15px rgba(255, 182, 193, 0.5);
   overflow: hidden;
 }
+#equalizerCanvas { width: 100%; height: 100%; }
 
 /* Фото Даши */
 .photo {
   position: absolute;
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 20px;
   object-fit: cover;
   pointer-events: none;
   transform: translate(-50%, -50%);
   box-shadow: 0 0 20px rgba(255, 102, 204, 0.8),
-    0 0 40px rgba(255, 102, 255, 0.5);
+              0 0 40px rgba(255, 102, 255, 0.5);
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -131,14 +122,13 @@ const photos = [
   "images/dasha3.jpg",
   "images/dasha4.jpg",
 ];
-
 const equalizerDiv = document.getElementById("equalizer");
 const canvas = document.getElementById("equalizerCanvas");
 const ctx = canvas.getContext("2d");
 const bgm = document.getElementById("bgm");
 const playButton = document.getElementById("playButton");
 
-// Настраиваем canvas размер под div и DPI
+// Настраиваем canvas размер под div
 function resizeCanvas() {
   const style = getComputedStyle(equalizerDiv);
   canvas.width = parseInt(style.width) * window.devicePixelRatio;
@@ -151,9 +141,8 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-// Создаем аудио-контекст и анализатор
+// Аудио-анализатор
 let audioCtx, source, analyser, dataArray;
-
 function setupAudio() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   source = audioCtx.createMediaElementSource(bgm);
@@ -164,7 +153,7 @@ function setupAudio() {
   dataArray = new Uint8Array(analyser.frequencyBinCount);
 }
 
-// Плавная волна эквалайзера
+// Рисуем плавную волну
 function drawWave() {
   requestAnimationFrame(drawWave);
   analyser.getByteFrequencyData(dataArray);
@@ -199,8 +188,7 @@ function drawWave() {
     const x = i * waveLength;
     const amp = dataArray[i] / 255;
     const y = baseY - (Math.sin(i * 0.3 + performance.now() / 400) * 20 +
-      Math.sin(i * 0.1 + performance.now() / 200) * 15) * amp - amp * 40;
-
+                        Math.sin(i * 0.1 + performance.now() / 200) * 15) * amp - amp * 40;
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   }
@@ -212,62 +200,35 @@ function drawWave() {
   ctx.fill();
 }
 
-// Функции плавности
-function easeOutQuad(t) { return t * (2 - t); }
-function easeInQuad(t) { return t * t; }
-
-// Новая анимация фото
+// Анимация фото Даши
 function spawnPhoto() {
   const photo = document.createElement("img");
   photo.src = photos[Math.floor(Math.random() * photos.length)];
   photo.classList.add("photo");
   photo.style.left = 50 + Math.random() * (window.innerWidth - 100) + "px";
-  photo.style.top = window.innerHeight + 150 + "px";
-  photo.style.opacity = 0;
-  photo.style.transform = `translate(-50%, 0) scale(0.5)`;
   document.body.appendChild(photo);
 
-  const duration = 4000 + Math.random() * 3000;
-  const start = Date.now();
-  const endY = 50 + Math.random() * (window.innerHeight - 300);
-  const maxScale = 1 + Math.random() * 0.5;
-  const horizontalShift = (Math.random() - 0.5) * 100;
+  const startTime = Date.now();
+  const duration = 4000 + Math.random() * 2000;
 
-  function animatePhoto() {
-    const now = Date.now();
-    const t = (now - start) / duration;
+  function animate() {
+    const t = (Date.now() - startTime) / duration;
     if (t < 1) {
-      const scale = 0.5 + (maxScale - 0.5) * easeOutQuad(t);
-      const y = window.innerHeight + 150 - (window.innerHeight + 150 - endY) * easeOutQuad(t);
-      const xShift = horizontalShift * Math.sin(t * Math.PI * 2);
-      const glow = Math.sin(t * Math.PI) * 0.7 + 0.3;
-      photo.style.transform = `translate(calc(-50% + ${xShift}px), ${y}px) scale(${scale})`;
-      photo.style.opacity = glow;
-      photo.style.filter = `blur(${(1 - glow) * 2}px) drop-shadow(0 0 15px rgba(255,102,204,${glow}))`;
-      requestAnimationFrame(animatePhoto);
+      const y = -150 + (window.innerHeight / 2 + 50) * Math.sin(t * Math.PI);
+      const scale = 0.8 + 0.7 * Math.sin(t * Math.PI);
+      const rotate = t * 720;
+      const opacity = Math.sin(t * Math.PI);
+      photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
+      photo.style.opacity = opacity;
+      requestAnimationFrame(animate);
     } else {
-      const fadeStart = Date.now();
-      const fadeDuration = 1500;
-      function fadeOut() {
-        const t2 = (Date.now() - fadeStart) / fadeDuration;
-        if (t2 < 1) {
-          const scale = maxScale * (1 - t2);
-          const opacity = 1 - t2;
-          photo.style.transform = `translate(-50%, ${endY}px) scale(${scale})`;
-          photo.style.opacity = opacity;
-          photo.style.filter = `blur(${t2 * 2}px) drop-shadow(0 0 15px rgba(255,102,204,${opacity}))`;
-          requestAnimationFrame(fadeOut);
-        } else {
-          photo.remove();
-        }
-      }
-      fadeOut();
+      photo.remove();
     }
   }
-  animatePhoto();
+  animate();
 }
 
-// Запуск музыки, эквалайзера и фото
+// Кнопка запуска
 playButton.addEventListener("click", () => {
   if (!audioCtx) setupAudio();
   bgm.play().then(() => {
