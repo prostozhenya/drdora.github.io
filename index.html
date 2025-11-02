@@ -1,153 +1,150 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>С Днём Рождения, Даша 💖</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      background: radial-gradient(circle at center, #1a1a1a, #000);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      color: white;
-      font-family: "Poppins", sans-serif;
-      cursor: pointer; /* подсказка пользователю для клика */
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>С Днём Рождения, Даша 💖</title>
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    background: linear-gradient(135deg, #1a1a1a, #2b2b4d);
+    background-size: 400% 400%;
+    animation: bgShift 15s ease infinite;
+  }
 
-    h1 {
-      position: absolute;
-      top: 10%;
-      text-align: center;
-      font-size: 2em;
-      animation: fadeIn 3s ease forwards;
-      opacity: 0;
-    }
+  @keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
+  h1 {
+    position: absolute;
+    top: 10%;
+    text-align: center;
+    font-size: 2.5em;
+    animation: fadeIn 3s ease forwards;
+    opacity: 0;
+    text-shadow: 0 0 15px #ff66cc, 0 0 30px #ff66cc;
+  }
 
-    /* Эквалайзер полоски с эффектом стекла */
-    .bar {
-  display: inline-block;
-  width: 100px;           /* увеличиваем ширину */
-  height: 150px;          /* начальная высота */
-  margin: 0 8px;
-  border-radius: 15px;
-  transform-origin: bottom;
-  transition: height 0.1s ease;
-  backdrop-filter: blur(8px) saturate(150%);
-  -webkit-backdrop-filter: blur(8px) saturate(150%);
-  background-color: rgba(255, 255, 255, 0.05);
-  background-size: contain;     /* показываем фото полностью */
-  background-repeat: no-repeat;
-  background-position: center;
-  box-shadow: 0 0 20px rgba(255, 102, 204, 0.6), inset 0 0 10px rgba(255,255,255,0.2);
-}
+  @keyframes fadeIn { to { opacity: 1; } }
 
+  #equalizer {
+    display: flex;
+    position: absolute;
+    bottom: 50px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 10px;
+  }
 
-    #equalizer {
-      display: flex;
-      position: absolute;
-      bottom: 80px;
-      justify-content: center;
-      align-items: flex-end;
-    }
+  .bar {
+    flex: 1;
+    margin: 0 3px;
+    border-radius: 15px;
+    transform-origin: bottom;
+    transition: height 0.1s ease;
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    background-color: rgba(255, 255, 255, 0.05);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 20px rgba(255, 102, 204, 0.6), inset 0 0 10px rgba(255,255,255,0.2);
+  }
 
-    footer {
-      position: absolute;
-      bottom: 20px;
-      text-align: center;
-      font-size: 14px;
-      color: #aaa;
-    }
+  footer {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+  }
 
-    footer a {
-      color: #ff66cc;
-      text-decoration: none;
-      margin: 0 6px;
-    }
-  </style>
+  footer a {
+    color: #ff66cc;
+    text-decoration: none;
+    margin: 0 6px;
+  }
+</style>
 </head>
 <body>
-  <h1>С Днём Рождения, Даша 🎂💫</h1>
+<h1>С Днём Рождения, Даша 🎂💫</h1>
 
-  <!-- Музыка -->
-  <audio id="bgm" loop>
-    <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
-  </audio>
+<audio id="bgm" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+</audio>
 
-  <!-- Эквалайзер -->
-  <div id="equalizer"></div>
+<div id="equalizer"></div>
 
-  <footer>
-    designed by <b>prostozhenyaaa</b><br />
-    <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
-  </footer>
+<footer>
+  designed by <b>prostozhenyaaa</b><br />
+  <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
+</footer>
 
-  <script>
-    const photos = [
-      "images/dasha1.jpg",
-      "images/dasha2.jpg",
-      "images/dasha3.jpg",
-      "images/dasha4.jpg",
-      "images/dasha1.jpg",
-      "images/dasha2.jpg"
-    ];
+<script>
+const photos = [
+  "https://i.pinimg.com/originals/3c/4d/0e/3c4d0e3f1d3d4f5b91f1e9f5f6f7a8b9.jpg",
+  "https://i.pinimg.com/originals/0a/b1/c2/0ab1c2d3e4f5a6b7c8d9e0f1a2b3c4d5.jpg",
+  "https://i.pinimg.com/originals/1b/2c/3d/1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e.jpg",
+  "https://i.pinimg.com/originals/4d/5e/6f/4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a.jpg"
+];
 
-    const equalizer = document.getElementById('equalizer');
-    const bgm = document.getElementById('bgm');
+const equalizer = document.getElementById('equalizer');
+const bgm = document.getElementById('bgm');
 
-    // Создаем полоски эквалайзера с фото
-    const bars = [];
-    for (let i = 0; i < photos.length; i++) {
-      const bar = document.createElement('div');
-      bar.classList.add('bar');
-      bar.style.backgroundImage = `url(${photos[i]})`;
-      equalizer.appendChild(bar);
-      bars.push(bar);
+const bars = [];
+const numBars = 30;
+for (let i = 0; i < numBars; i++) {
+  const bar = document.createElement('div');
+  bar.classList.add('bar');
+  const photo = photos[Math.floor(Math.random() * photos.length)];
+  bar.style.backgroundImage = `url(${photo})`;
+  equalizer.appendChild(bar);
+  bars.push(bar);
+}
+
+function animate() {
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const source = audioCtx.createMediaElementSource(bgm);
+  const analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 64;
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+
+  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+  function renderFrame() {
+    requestAnimationFrame(renderFrame);
+    analyser.getByteFrequencyData(dataArray);
+    for (let i = 0; i < bars.length; i++) {
+      const value = dataArray[i % dataArray.length];
+      bars[i].style.height = (50 + value * 2) + 'px';
+      bars[i].style.boxShadow = `0 0 ${10 + value/10}px rgba(255,102,204,0.7), inset 0 0 ${5 + value/20}px rgba(255,255,255,0.3)`;
     }
+  }
+  renderFrame();
+}
 
-    function animate() {
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioCtx.createMediaElementSource(bgm);
-      const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 64; // более плавная анимация
-      source.connect(analyser);
-      analyser.connect(audioCtx.destination);
+function startAudio() {
+  bgm.play().then(() => animate())
+    .catch(err => console.log('Нужен клик для старта аудио:', err));
+  document.body.removeEventListener('click', startAudio);
+  document.body.removeEventListener('touchstart', startAudio);
+}
 
-      const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-      function renderFrame() {
-        requestAnimationFrame(renderFrame);
-        analyser.getByteFrequencyData(dataArray);
-
-        for (let i = 0; i < bars.length; i++) {
-          let value = dataArray[i] || 0;
-          bars[i].style.height = (50 + value * 2) + 'px';
-          bars[i].style.boxShadow = `0 0 ${10 + value/10}px rgba(255,102,204,0.7), inset 0 0 ${5 + value/20}px rgba(255,255,255,0.3)`;
-        }
-      }
-
-      renderFrame();
-    }
-
-    // Запуск при первом взаимодействии пользователя
-    function startAudio() {
-      bgm.play().then(() => animate())
-      .catch((err) => console.log('Автозапуск не сработал, требуется клик:', err));
-      document.body.removeEventListener('click', startAudio);
-      document.body.removeEventListener('touchstart', startAudio);
-    }
-
-    document.body.addEventListener('click', startAudio, { once: true });
-    document.body.addEventListener('touchstart', startAudio, { once: true });
-  </script>
+document.body.addEventListener('click', startAudio, { once: true });
+document.body.addEventListener('touchstart', startAudio, { once: true });
+</script>
 </body>
 </html>
-
