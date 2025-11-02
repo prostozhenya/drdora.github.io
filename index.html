@@ -5,117 +5,117 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>С Днём Рождения, Даша 💖</title>
 <style>
-body {
-  margin: 0;
-  overflow: hidden;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: white;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(135deg, #1a1a1a, #2b2b4d);
-  background-size: 400% 400%;
-  animation: bgShift 15s ease infinite;
-}
+  body {
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #1a1a1a, #2b2b4d);
+    background-size: 400% 400%;
+    animation: bgShift 15s ease infinite;
+    color: white;
+  }
 
-@keyframes bgShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+  @keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-h1 {
-  position: absolute;
-  top: 10%;
-  text-align: center;
-  font-size: 2.5em;
-  animation: fadeIn 3s ease forwards;
-  opacity: 0;
-  text-shadow: 0 0 15px #ff66cc, 0 0 30px #ff66cc;
-}
+  h1 {
+    position: absolute;
+    top: 10%;
+    text-align: center;
+    font-size: 2.5em;
+    animation: fadeIn 3s ease forwards;
+    opacity: 0;
+    text-shadow: 0 0 15px #ff66cc, 0 0 30px #ff66cc;
+  }
 
-@keyframes fadeIn { to { opacity: 1; } }
+  @keyframes fadeIn { to { opacity: 1; } }
 
-#playButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 20px 50px;
-  font-size: 1.5em;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ff66cc, #ff33aa);
-  color: white;
-  box-shadow: 0 0 20px rgba(255,102,204,0.6), 0 0 50px rgba(255,102,204,0.3);
-  animation: pulse 2s infinite;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
+  /* Кнопка запуска музыки */
+  #playButton {
+    padding: 15px 30px;
+    background: linear-gradient(45deg, #ff66cc, #ff3399);
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2em;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 20px rgba(255,102,204,0.6);
+    animation: pulse 2s infinite;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
 
-#playButton:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 30px rgba(255,102,204,0.8), 0 0 60px rgba(255,102,204,0.4);
-}
+  #playButton:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 40px rgba(255,102,204,0.9);
+  }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 20px rgba(255,102,204,0.6), 0 0 50px rgba(255,102,204,0.3); }
-  50% { box-shadow: 0 0 30px rgba(255,102,204,0.8), 0 0 70px rgba(255,102,204,0.4); }
-  100% { box-shadow: 0 0 20px rgba(255,102,204,0.6), 0 0 50px rgba(255,102,204,0.3); }
-}
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255,102,204,0.6); }
+    50% { box-shadow: 0 0 40px rgba(255,102,204,0.9); }
+  }
 
-#equalizer {
-  display: flex;
-  position: absolute;
-  bottom: 50px;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 0 10px;
-}
+  #equalizer {
+    display: flex;
+    position: absolute;
+    bottom: 50px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 10px;
+  }
 
-.bar {
-  flex: 1;
-  margin: 0 3px;
-  border-radius: 15px;
-  transform-origin: bottom;
-  transition: height 0.1s ease;
-  backdrop-filter: blur(8px) saturate(150%);
-  -webkit-backdrop-filter: blur(8px) saturate(150%);
-  background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 20px rgba(255, 102, 204, 0.6), inset 0 0 10px rgba(255,255,255,0.2);
-}
+  .bar {
+    flex: 1;
+    margin: 0 3px;
+    border-radius: 15px;
+    transform-origin: bottom;
+    transition: height 0.1s ease;
+    backdrop-filter: blur(8px) saturate(150%);
+    -webkit-backdrop-filter: blur(8px) saturate(150%);
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(255, 102, 204, 0.6), inset 0 0 10px rgba(255,255,255,0.2);
+  }
 
-.photo {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 20px;
-  object-fit: cover;
-  transform: translate3d(0,0,0);
-  opacity: 0;
-}
+  .photo {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 20px;
+    object-fit: cover;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
 
-footer {
-  position: absolute;
-  bottom: 20px;
-  text-align: center;
-  font-size: 14px;
-  color: #aaa;
-}
+  footer {
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+  }
 
-footer a {
-  color: #ff66cc;
-  text-decoration: none;
-  margin: 0 6px;
-}
+  footer a {
+    color: #ff66cc;
+    text-decoration: none;
+    margin: 0 6px;
+  }
 </style>
 </head>
 <body>
 <h1>С Днём Рождения, Даша 🎂💫</h1>
 
-<button id="playButton">Нажми сюда 🎵</button>
+<button id="playButton">Нажми сюда, чтобы начать музыку 🎵</button>
 
 <audio id="bgm" loop>
   <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
@@ -136,8 +136,11 @@ const photos = [
   "images/dasha4.jpg"
 ];
 
-// Эквалайзер
 const equalizer = document.getElementById('equalizer');
+const bgm = document.getElementById('bgm');
+const playButton = document.getElementById('playButton');
+
+// Эквалайзер
 const bars = [];
 const numBars = 30;
 for (let i = 0; i < numBars; i++) {
@@ -147,42 +150,65 @@ for (let i = 0; i < numBars; i++) {
   bars.push(bar);
 }
 
-// Функция создания "летящей к пользователю" фотографии
+// Анимация эквалайзера
+function animateEqualizer() {
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const source = audioCtx.createMediaElementSource(bgm);
+  const analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 64;
+  source.connect(analyser);
+  analyser.connect(audioCtx.destination);
+
+  const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+  function renderFrame() {
+    requestAnimationFrame(renderFrame);
+    analyser.getByteFrequencyData(dataArray);
+    for (let i = 0; i < bars.length; i++) {
+      const value = dataArray[i % dataArray.length];
+      bars[i].style.height = (50 + value * 2) + 'px';
+      bars[i].style.boxShadow = `0 0 ${10 + value/10}px rgba(255,102,204,0.7), inset 0 0 ${5 + value/20}px rgba(255,255,255,0.3)`;
+    }
+  }
+  renderFrame();
+}
+
+// Анимация фоток
+function easeOutQuad(t) { return t*(2-t); }
+function easeInQuad(t) { return t*t; }
+
 function spawnPhoto() {
   const photo = document.createElement('img');
   photo.src = photos[Math.floor(Math.random() * photos.length)];
   photo.classList.add('photo');
-  photo.style.left = (Math.random() * (window.innerWidth - 140)) + 'px';
+  photo.style.left = (20 + Math.random() * (window.innerWidth - 40)) + 'px';
   document.body.appendChild(photo);
 
   let start = Date.now();
   const duration = 4000 + Math.random() * 2000;
-  const startY = window.innerHeight + 100;
-  const endY = window.innerHeight / 2 - 60;
+  const startY = -150; // старт сверху
+  const endY = window.innerHeight / 2 - 60; // центр экрана
   const maxScale = 2 + Math.random();
 
   function animatePhoto() {
     const now = Date.now();
     const t = (now - start) / duration;
     if (t < 1) {
-      // Плавный рост и движение
-      const y = startY - (startY - endY) * easeOutQuad(t);
+      const y = startY + (endY - startY) * easeOutQuad(t);
       const scale = 1 + (maxScale - 1) * easeOutQuad(t);
-      const rotate = t * 720; // два оборота
-      const opacity = Math.sin(t * Math.PI); // плавная прозрачность
+      const rotate = t * 720;
+      const opacity = Math.sin(t * Math.PI);
       photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
       photo.style.opacity = opacity;
       requestAnimationFrame(animatePhoto);
     } else {
-      // Возвращаем назад
       start = Date.now();
-      const returnDuration = duration;
       const currentScale = maxScale;
       const currentY = endY;
       function returnAnimate() {
-        const t2 = (Date.now() - start) / returnDuration;
+        const t2 = (Date.now() - start) / duration;
         if (t2 < 1) {
-          const y = currentY + (startY - currentY) * easeInQuad(t2);
+          const y = currentY - (currentY - startY) * easeInQuad(t2);
           const scale = currentScale - (currentScale - 1) * easeInQuad(t2);
           const rotate = 720 + t2 * 720;
           const opacity = Math.cos(t2 * Math.PI / 2);
@@ -199,44 +225,18 @@ function spawnPhoto() {
   animatePhoto();
 }
 
-// easing функции
-function easeOutQuad(t) { return t*(2-t); }
-function easeInQuad(t) { return t*t; }
-
-// спавн фото каждые 1.5 сек
-setInterval(spawnPhoto, 1500);
-
-// Эквалайзер
-const bgm = document.getElementById('bgm');
-let audioCtx, analyser, dataArray;
-
+// Запуск музыки
 function startAudio() {
   bgm.play().then(() => {
-    document.getElementById('playButton').style.display = 'none';
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const source = audioCtx.createMediaElementSource(bgm);
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 64;
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    dataArray = new Uint8Array(analyser.frequencyBinCount);
-    renderFrame();
+    animateEqualizer();
+    spawnPhoto();
+    // генерация фоток каждые 2 сек
+    setInterval(spawnPhoto, 2000);
+    playButton.style.display = 'none';
   }).catch(err => console.log('Нужен клик для старта аудио:', err));
 }
 
-function renderFrame() {
-  requestAnimationFrame(renderFrame);
-  analyser.getByteFrequencyData(dataArray);
-  for (let i = 0; i < bars.length; i++) {
-    const value = dataArray[i % dataArray.length];
-    bars[i].style.height = (50 + value * 2) + 'px';
-    bars[i].style.boxShadow = `0 0 ${10 + value/10}px rgba(255,102,204,0.7), inset 0 0 ${5 + value/20}px rgba(255,255,255,0.3)`;
-  }
-}
-
-// запуск при клике на кнопку или на эквалайзер
-document.getElementById('playButton').addEventListener('click', startAudio);
-equalizer.addEventListener('click', startAudio);
+playButton.addEventListener('click', startAudio);
 </script>
 </body>
 </html>
