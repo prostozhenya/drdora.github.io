@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>С Днём Рождения, Дорик 💖</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #1a1a1a, #000);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: white;
+      font-family: "Poppins", sans-serif;
+    }
+
+    h1 {
+      position: absolute;
+      top: 10%;
+      text-align: center;
+      font-size: 2em;
+      animation: fadeIn 3s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .card {
+      position: absolute;
+      width: 180px;
+      height: 250px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      animation: fly 6s ease-out infinite;
+      opacity: 0;
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translateY(100vh) rotate(0deg) scale(0.5);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-10vh) rotate(20deg) scale(1);
+      }
+      100% {
+        transform: translateY(-120vh) rotate(-15deg) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    footer a {
+      color: #ff66cc;
+      text-decoration: none;
+      margin: 0 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>С Днём Рождения, Дорик 🎂💫</h1>
+
+  <audio id="bgm" autoplay loop>
+    <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
+  </audio>
+
+  <footer>
+    designed by <b>prostozhenyaaa</b><br />
+    <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
+  </footer>
+
+  <script>
+    const photos = [
+      "images/dasha1.jpg",
+      "images/dasha2.jpg",
+      "images/dasha3.jpg",
+      "images/dasha4.jpg"
+    ];
+
+    function createCard() {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+      card.style.backgroundImage = `url(${randomPhoto})`;
+
+      const randomX = Math.random() * window.innerWidth;
+      card.style.left = randomX + "px";
+      card.style.animationDuration = 4 + Math.random() * 3 + "s";
+
+      document.body.appendChild(card);
+
+      setTimeout(() => card.remove(), 6000);
+    }
+
+    setInterval(createCard, 800);
+  </script>
+</body>
+</html>
