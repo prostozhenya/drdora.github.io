@@ -63,31 +63,32 @@
     }
 
     /* --- iOS 16 стеклянная кнопка --- */
-    #playMusic {
-      position: absolute;
-      bottom: 120px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 14px 30px;
-      font-size: 18px;
-      font-weight: 600;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px) saturate(180%);
-      -webkit-backdrop-filter: blur(10px) saturate(180%);
-      box-shadow: 0 8px 32px rgba(255, 102, 204, 0.4);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      z-index: 1000;
-    }
+#playMusic {
+  position: absolute;
+  top: 50%; /* центр по вертикали */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 40px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  background: rgba(255, 102, 204, 0.3); /* ярче, чем было */
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  box-shadow: 0 10px 40px rgba(255, 102, 204, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
 
-    #playMusic:hover {
-      background: rgba(255, 102, 204, 0.25);
-      box-shadow: 0 10px 40px rgba(255, 102, 204, 0.6);
-      transform: translateX(-50%) scale(1.05);
-    }
+#playMusic:hover {
+  background: rgba(255, 102, 204, 0.5);
+  box-shadow: 0 12px 50px rgba(255, 102, 204, 0.8);
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
 
     #playMusic.hidden {
       opacity: 0;
@@ -163,3 +164,4 @@
   </script>
 </body>
 </html>
+
