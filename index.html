@@ -11,9 +11,9 @@
       background: radial-gradient(circle at center, #1a1a1a, #000);
       height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      flex-direction: row;
       color: white;
       font-family: "Poppins", sans-serif;
     }
@@ -21,85 +21,33 @@
     h1 {
       position: absolute;
       top: 10%;
+      width: 100%;
       text-align: center;
       font-size: 2em;
+      color: #fff;
       animation: fadeIn 3s ease forwards;
       opacity: 0;
     }
 
     @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+      to { opacity: 1; }
     }
 
-    .card {
-      position: absolute;
-      width: 180px;
-      height: 250px;
+    .bar {
+      width: 60px;
+      margin: 0 5px;
+      border-radius: 10px;
       background-size: cover;
       background-position: center;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-      animation: fly 6s ease-out infinite;
-      opacity: 0;
-    }
-
-    @keyframes fly {
-      0% {
-        transform: translateY(100vh) rotate(0deg) scale(0.5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      50% {
-        transform: translateY(-10vh) rotate(20deg) scale(1);
-      }
-      100% {
-        transform: translateY(-120vh) rotate(-15deg) scale(0.8);
-        opacity: 0;
-      }
-    }
-
-    /* --- iOS 16 стеклянная кнопка --- */
-   #playMusic {
-  position: absolute;
-  top: 50%; /* центр по вертикали */
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 16px 40px;
-  font-size: 20px;
-  font-weight: 600;
-  color: #fff;
-  border: none;
-  border-radius: 30px;
-  background: rgba(255, 102, 204, 0.3); /* ярче, чем было */
-  backdrop-filter: blur(10px) saturate(180%);
-  -webkit-backdrop-filter: blur(10px) saturate(180%);
-  box-shadow: 0 10px 40px rgba(255, 102, 204, 0.6);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-#playMusic:hover {
-  background: rgba(255, 102, 204, 0.5);
-  box-shadow: 0 12px 50px rgba(255, 102, 204, 0.8);
-  transform: translate(-50%, -50%) scale(1.05);
-}
-
-
-    #playMusic.hidden {
-      opacity: 0;
-      transform: scale(0.8);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      pointer-events: none;
+      transform-origin: bottom;
+      transition: transform 0.05s linear;
+      box-shadow: 0 0 10px rgba(255,102,204,0.6);
     }
 
     footer {
       position: absolute;
       bottom: 20px;
+      width: 100%;
       text-align: center;
       font-size: 14px;
       color: #aaa;
@@ -115,52 +63,61 @@
 <body>
   <h1>С Днём Рождения, Даша 🎂💫</h1>
 
-  <!-- Кнопка и музыка -->
-  <button id="playMusic">🎵 Включить музыку</button>
-  <audio id="bgm" loop>
-    <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
-  </audio>
-
   <footer>
-    designed by <b>prostozhenyaaa</b><br />
+    designed by <b>prostozhenyaaa</b><br>
     <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
   </footer>
 
+  <!-- Аудио -->
+  <audio id="bgm" src="music/papa_temnogo_princa.mp3" loop autoplay></audio>
+
   <script>
-    // Включение музыки по клику
-    const btn = document.getElementById('playMusic');
-    const bgm = document.getElementById('bgm');
-
-    btn.addEventListener('click', () => {
-      bgm.play();
-      btn.classList.add('hidden'); // плавно спрятать кнопку
-      setTimeout(() => btn.style.display = 'none', 800);
-    });
-
-    // Анимация карточек с фото
+    // Фотографии для эквалайзера
     const photos = [
       "images/dasha1.jpg",
       "images/dasha2.jpg",
       "images/dasha3.jpg",
-      "images/dasha4.jpg",
+      "images/dasha4.jpg"
     ];
 
-    function createCard() {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
-      card.style.backgroundImage = `url(${randomPhoto})`;
+    const bars = [];
+    photos.forEach(photo => {
+      const bar = document.createElement('div');
+      bar.classList.add('bar');
+      bar.style.height = '50px';
+      bar.style.backgroundImage = `url(${photo})`;
+      document.body.appendChild(bar);
+      bars.push(bar);
+    });
 
-      const randomX = Math.random() * window.innerWidth;
-      card.style.left = randomX + "px";
-      card.style.animationDuration = 4 + Math.random() * 3 + "s";
+    // Настройка Web Audio API
+    const audio = document.getElementById('bgm');
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+    const source = audioCtx.createMediaElementSource(audio);
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 64;
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
 
-      document.body.appendChild(card);
+    const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-      setTimeout(() => card.remove(), 6000);
+    function animate() {
+      requestAnimationFrame(animate);
+      analyser.getByteFrequencyData(dataArray);
+
+      for(let i = 0; i < bars.length; i++){
+        let value = dataArray[i] / 2 + 20; // масштабируем высоту
+        bars[i].style.height = value + 'px';
+      }
     }
 
-    setInterval(createCard, 800);
+    // Автозапуск аудио (если браузер блокирует автоплей, нужно взаимодействие)
+    audio.play().catch(() => {
+      console.log("Автоплей заблокирован, нужен клик пользователя");
+    });
+
+    animate();
   </script>
 </body>
 </html>
