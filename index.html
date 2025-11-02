@@ -63,6 +63,24 @@
     box-shadow: 0 0 20px rgba(255, 102, 204, 0.6), inset 0 0 10px rgba(255,255,255,0.2);
   }
 
+  .photo {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    object-fit: cover;
+    opacity: 0;
+    animation: floatUp 10s linear infinite;
+    box-shadow: 0 0 20px rgba(255,102,204,0.5);
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
+  }
+
   footer {
     position: absolute;
     bottom: 20px;
@@ -103,17 +121,17 @@ const photos = [
 const equalizer = document.getElementById('equalizer');
 const bgm = document.getElementById('bgm');
 
+// Создаем эквалайзер
 const bars = [];
 const numBars = 30;
 for (let i = 0; i < numBars; i++) {
   const bar = document.createElement('div');
   bar.classList.add('bar');
-  const photo = photos[Math.floor(Math.random() * photos.length)];
-  bar.style.backgroundImage = `url(${photo})`;
   equalizer.appendChild(bar);
   bars.push(bar);
 }
 
+// Анимация эквалайзера
 function animate() {
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const source = audioCtx.createMediaElementSource(bgm);
@@ -136,6 +154,22 @@ function animate() {
   renderFrame();
 }
 
+// Плавающие фото
+function spawnPhoto() {
+  const photo = document.createElement('img');
+  photo.src = photos[Math.floor(Math.random() * photos.length)];
+  photo.classList.add('photo');
+  photo.style.left = Math.random() * window.innerWidth + 'px';
+  photo.style.animationDuration = 8 + Math.random() * 6 + 's';
+  document.body.appendChild(photo);
+
+  setTimeout(() => photo.remove(), 14000);
+}
+
+// Запуск появления фотографий каждые 1.5 секунды
+setInterval(spawnPhoto, 1500);
+
+// Запуск музыки и эквалайзера при клике
 function startAudio() {
   bgm.play().then(() => animate())
     .catch(err => console.log('Нужен клик для старта аудио:', err));
