@@ -16,13 +16,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background:
-      linear-gradient(135deg, rgba(28,28,28,0.7), rgba(43,43,43,0.7)),
-      url('images/dasha_bg.jpg') no-repeat center center / cover;
+    background: url('images/dasha_bg.jpg') no-repeat center center / cover;
     position: relative;
     color: white;
   }
 
+  /* Заголовок */
   h1 {
     position: absolute;
     top: 10%;
@@ -34,22 +33,21 @@
     animation: fadeIn 3s forwards;
   }
   @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
+    to { opacity: 1; }
   }
 
+  /* Кнопка запуска музыки */
   #playButton {
     padding: 15px 40px;
     font-size: 1.3em;
     border: none;
     border-radius: 25px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(12px) saturate(180%);
     -webkit-backdrop-filter: blur(12px) saturate(180%);
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 20px rgba(255, 102, 204, 0.6);
+    box-shadow: 0 0 20px rgba(255,102,204,0.6);
     transition: 0.3s;
     position: absolute;
     top: 50%;
@@ -57,32 +55,35 @@
   }
   #playButton:hover {
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 0 40px rgba(255, 102, 204, 0.9);
+    box-shadow: 0 0 40px rgba(255,102,204,0.9);
   }
 
-  /* Новый стиль эквалайзера — круги вокруг центра с бликами */
-  #equalizer {
+  /* Эквалайзер - волны */
+  #waveEqualizer {
     position: absolute;
-    top: 50%;
+    bottom: 60px;
     left: 50%;
-    width: 350px;
-    height: 350px;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     pointer-events: none;
   }
 
-  .circle {
-    position: absolute;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(255,182,193,0.3));
+  .wave {
+    flex: 1;
+    margin: 0 6px;
+    height: 50px;
+    border-radius: 60% / 100%;
+    background: linear-gradient(135deg, rgba(255,182,193,0.4), rgba(255,105,180,0.9));
     box-shadow:
-      0 0 15px rgba(255,182,193,0.7),
-      0 0 30px rgba(255,105,180,0.5),
-      inset 0 0 5px rgba(255,255,255,0.6);
-    transition: transform 0.1s ease, opacity 0.1s ease;
-    mix-blend-mode: screen;
+      0 0 15px rgba(255,105,180,0.7),
+      inset 0 0 15px rgba(255,182,193,0.5);
+    transition: height 0.1s ease, opacity 0.1s ease;
+    filter: drop-shadow(0 0 10px rgba(255,105,180,0.5));
   }
 
   /* Фото Даши */
@@ -94,10 +95,11 @@
     object-fit: cover;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 25px rgba(255,102,204,0.8), 0 0 50px rgba(255,102,255,0.5);
+    box-shadow: 0 0 20px rgba(255,102,204,0.8), 0 0 40px rgba(255,102,255,0.5);
     transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
+  /* Footer */
   footer {
     position: absolute;
     bottom: 20px;
@@ -105,7 +107,6 @@
     font-size: 14px;
     color: #ff99cc;
   }
-
   footer a {
     color: #ff66cc;
     text-decoration: none;
@@ -120,7 +121,7 @@
 <audio id="bgm" loop>
   <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
 </audio>
-<div id="equalizer"></div>
+
 <footer>
   designed by <b>prostozhenyaaa</b><br />
   <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
@@ -131,88 +132,70 @@
     "images/dasha1.jpg",
     "images/dasha2.jpg",
     "images/dasha3.jpg",
-    "images/dasha4.jpg",
+    "images/dasha4.jpg"
   ];
 
-  const equalizer = document.getElementById("equalizer");
-  const bgm = document.getElementById("bgm");
-  const playButton = document.getElementById("playButton");
+  const bgm = document.getElementById('bgm');
+  const playButton = document.getElementById('playButton');
 
-  // Создаем круги для эквалайзера
-  const circles = [];
-  const numCircles = 30; // количество кругов
+  // Создаем контейнер для волн эквалайзера
+  const waveEqualizer = document.createElement('div');
+  waveEqualizer.id = 'waveEqualizer';
+  document.body.appendChild(waveEqualizer);
 
-  for (let i = 0; i < numCircles; i++) {
-    const circle = document.createElement("div");
-    circle.classList.add("circle");
-    equalizer.appendChild(circle);
-    circles.push(circle);
+  const waveCount = 20;
+  const waves = [];
+
+  for(let i = 0; i < waveCount; i++){
+    const wave = document.createElement('div');
+    wave.classList.add('wave');
+    waveEqualizer.appendChild(wave);
+    waves.push(wave);
   }
 
-  // Функция для анимации эквалайзера с кругами и бликами
-  function animateEqualizer() {
+  function animateWaveEqualizer(){
+    // Инициализация аудио контекста и анализатора
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioCtx.createMediaElementSource(bgm);
     const analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 128;
+    analyser.fftSize = 256;
     source.connect(analyser);
     analyser.connect(audioCtx.destination);
-
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-    function renderFrame() {
-      requestAnimationFrame(renderFrame);
+    function render(){
+      requestAnimationFrame(render);
       analyser.getByteFrequencyData(dataArray);
 
-      circles.forEach((circle, i) => {
-        // Значение громкости для каждого круга
+      waves.forEach((wave, i) => {
         const value = dataArray[i % dataArray.length];
-
-        // Расположение кругов по окружности с радиусом и эффектом движения
-        const angle = (i / numCircles) * 2 * Math.PI + performance.now() / 2000;
-        const radius = 100 + value; // радиус зависит от громкости
-
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-
-        // Масштаб круга по громкости (пульсация)
-        const scale = 0.4 + (value / 255) * 1.4;
-
-        // Цвет с лёгким оттенком розового, бликами и прозрачностью
-        const r = 255;
-        const g = 105 + Math.floor(value / 3);
-        const b = 180 + Math.floor(value / 4);
-
-        circle.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-        circle.style.opacity = 0.35 + value / 255 * 0.65;
-        circle.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(${r},${g},${b},0.25))`;
-        circle.style.boxShadow = `0 0 ${10 + value / 5}px rgba(${r},${g},${b},0.6), 0 0 ${25 + value / 2}px rgba(${r},${g},${b},0.4), inset 0 0 7px rgba(255,255,255,0.7)`;
+        // Высота волны 40 - 140px (зависит от громкости)
+        const height = 40 + (value / 255) * 100;
+        wave.style.height = height + 'px';
+        // Прозрачность зависит от громкости
+        wave.style.opacity = 0.3 + (value / 255) * 0.7;
+        // Сдвиг цвета для динамики
+        const hueShift = (value / 255) * 50;
+        wave.style.filter = `drop-shadow(0 0 10px hsl(${320 + hueShift}, 80%, 70%))`;
       });
     }
-    renderFrame();
+    render();
   }
 
-  // Анимация фото Даши (оставляем без изменений)
-  function easeOutQuad(t) {
-    return t * (2 - t);
-  }
-  function easeInQuad(t) {
-    return t * t;
-  }
-
+  // Функции для анимации фото Даши (без изменений)
+  function easeOutQuad(t){return t*(2-t);}
+  function easeInQuad(t){return t*t;}
   function spawnPhoto() {
-    const photo = document.createElement("img");
+    const photo = document.createElement('img');
     photo.src = photos[Math.floor(Math.random() * photos.length)];
-    photo.classList.add("photo");
-    photo.style.left = 50 + Math.random() * (window.innerWidth - 100) + "px";
+    photo.classList.add('photo');
+    photo.style.left = (50 + Math.random() * (window.innerWidth - 100)) + 'px';
     document.body.appendChild(photo);
-
     let start = Date.now();
     const duration = 3500 + Math.random() * 2000;
     const startY = -250;
     const endY = window.innerHeight / 2 - 70;
     const maxScale = 1.5 + Math.random() * 0.5;
-
     function animatePhoto() {
       const now = Date.now();
       const t = (now - start) / duration;
@@ -234,7 +217,7 @@
             const y = currentY - (currentY - startY) * easeInQuad(t2);
             const scale = currentScale - (currentScale - 1) * easeInQuad(t2);
             const rotate = 720 + t2 * 720;
-            const opacity = Math.cos((t2 * Math.PI) / 2);
+            const opacity = Math.cos(t2 * Math.PI / 2);
             photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
             photo.style.opacity = opacity;
             requestAnimationFrame(returnAnimate);
@@ -248,18 +231,14 @@
     animatePhoto();
   }
 
-  // Запуск музыки, эквалайзера и фото
-  let audioStarted = false;
-  playButton.addEventListener("click", () => {
+  // Запуск музыки, волнового эквалайзера и фото
+  playButton.addEventListener('click', () => {
     bgm.play().then(() => {
-      if (!audioStarted) {
-        animateEqualizer();
-        setInterval(spawnPhoto, 1500);
-        audioStarted = true;
-      }
-      playButton.style.display = "none";
-    }).catch(err => console.error("Ошибка запуска аудио:", err));
+      animateWaveEqualizer();
+      setInterval(spawnPhoto, 1500);
+      playButton.style.display = 'none';
+    });
   });
 </script>
-
-</
+</body>
+</html>
