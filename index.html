@@ -62,6 +62,36 @@
       }
     }
 
+    /* --- Красивая кнопка для музыки --- */
+    #playMusic {
+      position: absolute;
+      bottom: 100px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      background: rgba(255, 102, 204, 0.2);
+      color: #ff99cc;
+      font-size: 16px;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 10px rgba(255, 102, 204, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    #playMusic:hover {
+      background: rgba(255, 102, 204, 0.5);
+      color: white;
+      box-shadow: 0 0 20px rgba(255, 102, 204, 0.8);
+      transform: scale(1.05);
+    }
+
+    #playMusic.hidden {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      pointer-events: none;
+    }
+
     footer {
       position: absolute;
       bottom: 20px;
@@ -80,21 +110,11 @@
 <body>
   <h1>С Днём Рождения, Даша 🎂💫</h1>
 
-  
+  <!-- Кнопка и музыка -->
   <button id="playMusic">🎵 Включить музыку</button>
-<audio id="bgm" loop>
-  <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
-</audio>
-
-<script>
-  const btn = document.getElementById('playMusic');
-  const bgm = document.getElementById('bgm');
-  btn.addEventListener('click', () => {
-    bgm.play();
-    btn.style.display = 'none'; // спрятать кнопку после запуска
-  });
-</script>
-
+  <audio id="bgm" loop>
+    <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
+  </audio>
 
   <footer>
     designed by <b>prostozhenyaaa</b><br />
@@ -102,6 +122,17 @@
   </footer>
 
   <script>
+    // Включение музыки по клику
+    const btn = document.getElementById('playMusic');
+    const bgm = document.getElementById('bgm');
+
+    btn.addEventListener('click', () => {
+      bgm.play();
+      btn.classList.add('hidden'); // плавно спрятать кнопку
+      setTimeout(() => btn.style.display = 'none', 800);
+    });
+
+    // Анимация карточек с фото
     const photos = [
       "images/dasha1.jpg",
       "images/dasha2.jpg",
@@ -128,8 +159,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
