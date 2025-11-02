@@ -32,17 +32,29 @@
       to { opacity: 1; }
     }
 
-    /* Эквалайзер полоски */
+    /* Эквалайзер полоски с эффектом стекла */
     .bar {
       display: inline-block;
-      width: 30px;
-      height: 50px;
-      margin: 0 5px;
+      width: 70px;
+      height: 150px;
+      margin: 0 8px;
+      border-radius: 15px;
       background-size: cover;
-      border-radius: 5px;
+      background-position: center;
       transform-origin: bottom;
-      transition: height 0.1s;
-      box-shadow: 0 0 10px rgba(255,102,204,0.5);
+      transition: height 0.1s ease;
+      backdrop-filter: blur(8px) saturate(150%);
+      -webkit-backdrop-filter: blur(8px) saturate(150%);
+      background-color: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(255, 102, 204, 0.6), inset 0 0 10px rgba(255,255,255,0.2);
+    }
+
+    #equalizer {
+      display: flex;
+      position: absolute;
+      bottom: 80px;
+      justify-content: center;
+      align-items: flex-end;
     }
 
     footer {
@@ -69,7 +81,7 @@
   </audio>
 
   <!-- Эквалайзер -->
-  <div id="equalizer" style="display:flex; position:absolute; bottom:100px;"></div>
+  <div id="equalizer"></div>
 
   <footer>
     designed by <b>prostozhenyaaa</b><br />
@@ -82,6 +94,8 @@
       "images/dasha2.jpg",
       "images/dasha3.jpg",
       "images/dasha4.jpg",
+      "images/dasha1.jpg",
+      "images/dasha2.jpg"
     ];
 
     const equalizer = document.getElementById('equalizer');
@@ -97,12 +111,11 @@
       bars.push(bar);
     }
 
-    // Анимация эквалайзера
     function animate() {
       const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const source = audioCtx.createMediaElementSource(bgm);
       const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 32;
+      analyser.fftSize = 64; // более плавная анимация
       source.connect(analyser);
       analyser.connect(audioCtx.destination);
 
@@ -113,7 +126,9 @@
         analyser.getByteFrequencyData(dataArray);
 
         for (let i = 0; i < bars.length; i++) {
-          bars[i].style.height = (dataArray[i] * 1.5 + 50) + 'px';
+          let value = dataArray[i] || 0;
+          bars[i].style.height = (50 + value * 2) + 'px';
+          bars[i].style.boxShadow = `0 0 ${10 + value/10}px rgba(255,102,204,0.7), inset 0 0 ${5 + value/20}px rgba(255,255,255,0.3)`;
         }
       }
 
@@ -122,11 +137,8 @@
 
     // Запуск при первом взаимодействии пользователя
     function startAudio() {
-      bgm.play().then(() => {
-        animate();
-      }).catch((err) => {
-        console.log('Автозапуск не сработал, требуется клик:', err);
-      });
+      bgm.play().then(() => animate())
+      .catch((err) => console.log('Автозапуск не сработал, требуется клик:', err));
       document.body.removeEventListener('click', startAudio);
       document.body.removeEventListener('touchstart', startAudio);
     }
