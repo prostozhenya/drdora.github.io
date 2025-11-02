@@ -15,16 +15,12 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background:
-    linear-gradient(135deg, rgba(255,102,204,0.1), rgba(180,50,230,0.1)),
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05), transparent 70%),
-    radial-gradient(circle at 70% 70%, rgba(255,255,255,0.05), transparent 70%),
-    #0c0c0c; /* тёмный фон всей страницы */
+  background-color: #0d0d0d; /* тёмный фон для всей страницы */
   position: relative;
   color: white;
   overflow: hidden;
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
 }
 
 /* Заголовок */
@@ -127,6 +123,7 @@ footer a {
   designed by <b>prostozhenyaaa</b><br />
   <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
 </footer>
+
 <script>
 const photos = [
   "images/dasha1.jpg",
@@ -134,12 +131,14 @@ const photos = [
   "images/dasha3.jpg",
   "images/dasha4.jpg",
 ];
+
 const equalizerDiv = document.getElementById("equalizer");
 const canvas = document.getElementById("equalizerCanvas");
 const ctx = canvas.getContext("2d");
 const bgm = document.getElementById("bgm");
 const playButton = document.getElementById("playButton");
 
+// Настраиваем canvas размер под div и DPI
 function resizeCanvas() {
   const style = getComputedStyle(equalizerDiv);
   canvas.width = parseInt(style.width) * window.devicePixelRatio;
@@ -152,6 +151,7 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
+// Создаем аудио-контекст и анализатор
 let audioCtx, source, analyser, dataArray;
 
 function setupAudio() {
@@ -164,6 +164,7 @@ function setupAudio() {
   dataArray = new Uint8Array(analyser.frequencyBinCount);
 }
 
+// Плавная волна эквалайзера
 function drawWave() {
   requestAnimationFrame(drawWave);
   analyser.getByteFrequencyData(dataArray);
@@ -197,11 +198,9 @@ function drawWave() {
   for (let i = 0; i < pointsCount; i++) {
     const x = i * waveLength;
     const amp = dataArray[i] / 255;
-    const y =
-      baseY -
-      (Math.sin(i * 0.3 + performance.now() / 400) * 20 +
-       Math.sin(i * 0.1 + performance.now() / 200) * 15) * amp -
-      amp * 40;
+    const y = baseY - (Math.sin(i * 0.3 + performance.now() / 400) * 20 +
+      Math.sin(i * 0.1 + performance.now() / 200) * 15) * amp - amp * 40;
+
     if (i === 0) ctx.moveTo(x, y);
     else ctx.lineTo(x, y);
   }
@@ -213,24 +212,70 @@ function drawWave() {
   ctx.fill();
 }
 
-function easeOutQuad(t) { return t*(2-t); }
-function easeInQuad(t) { return t*t; }
+// Функции плавности
+function easeOutQuad(t) { return t * (2 - t); }
+function easeInQuad(t) { return t * t; }
 
+// Новая анимация фото
 function spawnPhoto() {
   const photo = document.createElement("img");
   photo.src = photos[Math.floor(Math.random() * photos.length)];
   photo.classList.add("photo");
   photo.style.left = 50 + Math.random() * (window.innerWidth - 100) + "px";
+  photo.style.top = window.innerHeight + 150 + "px";
+  photo.style.opacity = 0;
+  photo.style.transform = `translate(-50%, 0) scale(0.5)`;
   document.body.appendChild(photo);
-  let start = Date.now();
-  const duration = 3500 + Math.random()*2000;
-  const startY = -250;
-  const endY = window.innerHeight/2 - 70;
-  const maxScale = 1.5 + Math.random()*0.5;
+
+  const duration = 4000 + Math.random() * 3000;
+  const start = Date.now();
+  const endY = 50 + Math.random() * (window.innerHeight - 300);
+  const maxScale = 1 + Math.random() * 0.5;
+  const horizontalShift = (Math.random() - 0.5) * 100;
+
   function animatePhoto() {
     const now = Date.now();
-    const t = (now-start)/duration;
-    if(t<1){
-      const y = startY + (endY-startY)*easeOutQuad(t);
-      const scale = 1 + (maxScale-1)*easeOutQuad(t);
-      const rotate = t*720
+    const t = (now - start) / duration;
+    if (t < 1) {
+      const scale = 0.5 + (maxScale - 0.5) * easeOutQuad(t);
+      const y = window.innerHeight + 150 - (window.innerHeight + 150 - endY) * easeOutQuad(t);
+      const xShift = horizontalShift * Math.sin(t * Math.PI * 2);
+      const glow = Math.sin(t * Math.PI) * 0.7 + 0.3;
+      photo.style.transform = `translate(calc(-50% + ${xShift}px), ${y}px) scale(${scale})`;
+      photo.style.opacity = glow;
+      photo.style.filter = `blur(${(1 - glow) * 2}px) drop-shadow(0 0 15px rgba(255,102,204,${glow}))`;
+      requestAnimationFrame(animatePhoto);
+    } else {
+      const fadeStart = Date.now();
+      const fadeDuration = 1500;
+      function fadeOut() {
+        const t2 = (Date.now() - fadeStart) / fadeDuration;
+        if (t2 < 1) {
+          const scale = maxScale * (1 - t2);
+          const opacity = 1 - t2;
+          photo.style.transform = `translate(-50%, ${endY}px) scale(${scale})`;
+          photo.style.opacity = opacity;
+          photo.style.filter = `blur(${t2 * 2}px) drop-shadow(0 0 15px rgba(255,102,204,${opacity}))`;
+          requestAnimationFrame(fadeOut);
+        } else {
+          photo.remove();
+        }
+      }
+      fadeOut();
+    }
+  }
+  animatePhoto();
+}
+
+// Запуск музыки, эквалайзера и фото
+playButton.addEventListener("click", () => {
+  if (!audioCtx) setupAudio();
+  bgm.play().then(() => {
+    drawWave();
+    setInterval(spawnPhoto, 1500);
+    playButton.style.display = "none";
+  });
+});
+</script>
+</body>
+</html>
