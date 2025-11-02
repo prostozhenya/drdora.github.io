@@ -15,7 +15,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: #1b1b1b; /* тёмный фон */
+  background: #111; /* тёмный фон */
   position: relative;
   color: white;
   overflow: hidden;
@@ -32,6 +32,7 @@ h1 {
   opacity: 0;
   animation: fadeIn 3s forwards;
 }
+
 @keyframes fadeIn { to { opacity: 1; } }
 
 /* Кнопка запуска музыки */
@@ -51,6 +52,7 @@ h1 {
   top: 50%;
   transform: translateY(-50%);
 }
+
 #playButton:hover {
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 0 40px rgba(255, 102, 204, 0.9);
@@ -65,14 +67,20 @@ h1 {
   height: 90px;
   border-radius: 20px;
   backdrop-filter: blur(25px) saturate(180%);
+  -webkit-backdrop-filter: blur(25px) saturate(180%);
   background: rgba(255, 102, 204, 0.15);
-  box-shadow: 0 0 30px rgba(255, 102, 204, 0.7),
-              inset 0 0 15px rgba(255, 182, 193, 0.5);
+  box-shadow:
+    0 0 30px rgba(255, 102, 204, 0.7),
+    inset 0 0 15px rgba(255, 182, 193, 0.5);
   overflow: hidden;
 }
-#equalizerCanvas { width: 100%; height: 100%; }
 
-/* Фото Даши */
+#equalizerCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Фото */
 .photo {
   position: absolute;
   width: 120px;
@@ -102,46 +110,51 @@ footer a {
 </style>
 </head>
 <body>
+
 <h1>С Днём Рождения, Даша 🎂💫</h1>
+
 <button id="playButton">Нажми, чтобы начать музыку 🎵</button>
 <audio id="bgm" loop>
   <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
 </audio>
+
 <div id="equalizer">
   <canvas id="equalizerCanvas"></canvas>
 </div>
+
 <footer>
   designed by <b>prostozhenyaaa</b><br />
   <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
 </footer>
 
 <script>
+// --- Фото для анимации ---
 const photos = [
-  "images/dasha1.jpg",
-  "images/dasha2.jpg",
-  "images/dasha3.jpg",
-  "images/dasha4.jpg",
+  "https://via.placeholder.com/120x120/ff66cc/ffffff?text=1",
+  "https://via.placeholder.com/120x120/ff66cc/ffffff?text=2",
+  "https://via.placeholder.com/120x120/ff66cc/ffffff?text=3",
+  "https://via.placeholder.com/120x120/ff66cc/ffffff?text=4"
 ];
+
+// --- Canvas эквалайзера ---
 const equalizerDiv = document.getElementById("equalizer");
 const canvas = document.getElementById("equalizerCanvas");
 const ctx = canvas.getContext("2d");
 const bgm = document.getElementById("bgm");
 const playButton = document.getElementById("playButton");
 
-// Настраиваем canvas размер под div
 function resizeCanvas() {
   const style = getComputedStyle(equalizerDiv);
   canvas.width = parseInt(style.width) * window.devicePixelRatio;
   canvas.height = parseInt(style.height) * window.devicePixelRatio;
   canvas.style.width = style.width;
   canvas.style.height = style.height;
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.setTransform(1,0,0,1,0,0);
   ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 }
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
-// Аудио-анализатор
 let audioCtx, source, analyser, dataArray;
 function setupAudio() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -153,71 +166,66 @@ function setupAudio() {
   dataArray = new Uint8Array(analyser.frequencyBinCount);
 }
 
-// Рисуем плавную волну
 function drawWave() {
   requestAnimationFrame(drawWave);
   analyser.getByteFrequencyData(dataArray);
-
   const width = canvas.width / window.devicePixelRatio;
   const height = canvas.height / window.devicePixelRatio;
-
-  ctx.clearRect(0, 0, width, height);
-
+  ctx.clearRect(0,0,width,height);
   const pointsCount = dataArray.length;
-  const baseY = height * 0.6;
-  const waveLength = width / (pointsCount - 1);
+  const baseY = height*0.6;
+  const waveLength = width / (pointsCount-1);
 
   ctx.lineWidth = 6;
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
 
-  const gradientLine = ctx.createLinearGradient(0, 0, width, 0);
-  gradientLine.addColorStop(0, "rgba(255, 102, 204, 1)");
-  gradientLine.addColorStop(1, "rgba(180, 50, 230, 1)");
+  const gradientLine = ctx.createLinearGradient(0,0,width,0);
+  gradientLine.addColorStop(0,"rgba(255,102,204,1)");
+  gradientLine.addColorStop(1,"rgba(180,50,230,1)");
 
-  const gradientFill = ctx.createLinearGradient(0, 0, 0, height);
-  gradientFill.addColorStop(0, "rgba(255, 102, 204, 0.4)");
-  gradientFill.addColorStop(1, "rgba(180, 50, 230, 0.05)");
+  const gradientFill = ctx.createLinearGradient(0,0,0,height);
+  gradientFill.addColorStop(0,"rgba(255,102,204,0.4)");
+  gradientFill.addColorStop(1,"rgba(180,50,230,0.05)");
 
   ctx.strokeStyle = gradientLine;
   ctx.fillStyle = gradientFill;
-
   ctx.beginPath();
 
-  for (let i = 0; i < pointsCount; i++) {
-    const x = i * waveLength;
-    const amp = dataArray[i] / 255;
-    const y = baseY - (Math.sin(i * 0.3 + performance.now() / 400) * 20 +
-                        Math.sin(i * 0.1 + performance.now() / 200) * 15) * amp - amp * 40;
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+  for (let i=0;i<pointsCount;i++){
+    const x = i*waveLength;
+    const amp = dataArray[i]/255;
+    const y = baseY - (Math.sin(i*0.3 + performance.now()/400)*20 +
+                        Math.sin(i*0.1 + performance.now()/200)*15)*amp -
+                        amp*40;
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
   }
-
   ctx.stroke();
-  ctx.lineTo(width, height);
-  ctx.lineTo(0, height);
+  ctx.lineTo(width,height);
+  ctx.lineTo(0,height);
   ctx.closePath();
   ctx.fill();
 }
 
-// Анимация фото Даши
-function spawnPhoto() {
+// --- Анимация фото ---
+function spawnPhoto(){
   const photo = document.createElement("img");
-  photo.src = photos[Math.floor(Math.random() * photos.length)];
+  photo.src = photos[Math.floor(Math.random()*photos.length)];
   photo.classList.add("photo");
-  photo.style.left = 50 + Math.random() * (window.innerWidth - 100) + "px";
+  photo.style.left = 50 + Math.random()*(window.innerWidth-100)+"px";
   document.body.appendChild(photo);
 
   const startTime = Date.now();
-  const duration = 4000 + Math.random() * 2000;
+  const duration = 3500 + Math.random()*1500;
 
-  function animate() {
-    const t = (Date.now() - startTime) / duration;
-    if (t < 1) {
-      const y = -150 + (window.innerHeight / 2 + 50) * Math.sin(t * Math.PI);
-      const scale = 0.8 + 0.7 * Math.sin(t * Math.PI);
-      const rotate = t * 720;
-      const opacity = Math.sin(t * Math.PI);
+  function animate(){
+    const t = (Date.now() - startTime)/duration;
+    if(t<1){
+      const y = -150 + (window.innerHeight+200)*Math.sin(t*Math.PI/2);
+      const scale = 0.8 + 0.5 * Math.sin(t*Math.PI);
+      const rotate = t*360;
+      const opacity = Math.sin(t*Math.PI);
       photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
       photo.style.opacity = opacity;
       requestAnimationFrame(animate);
@@ -228,15 +236,16 @@ function spawnPhoto() {
   animate();
 }
 
-// Кнопка запуска
-playButton.addEventListener("click", () => {
-  if (!audioCtx) setupAudio();
-  bgm.play().then(() => {
+// --- Кнопка запуска ---
+playButton.addEventListener("click", ()=>{
+  if(!audioCtx) setupAudio();
+  bgm.play().then(()=>{
     drawWave();
     setInterval(spawnPhoto, 1500);
     playButton.style.display = "none";
   });
 });
 </script>
+
 </body>
 </html>
