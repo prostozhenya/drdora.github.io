@@ -69,7 +69,7 @@
   </footer>
 
   <!-- Аудио -->
-  <audio id="bgm" src="music/papa_temnogo_princa.mp3" loop></audio>
+  <audio id="bgm" src="music/papa_temnogo_princa.mp3" loop autoplay></audio>
 
   <script>
     // Фотографии для эквалайзера
@@ -92,8 +92,6 @@
 
     // Настройка Web Audio API
     const audio = document.getElementById('bgm');
-    audio.autoplay = true;
-
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
     const source = audioCtx.createMediaElementSource(audio);
