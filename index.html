@@ -93,16 +93,8 @@ h1 {
   height: 120px;
   border-radius: 20px;
   object-fit: cover;
+  transform: translate3d(0,0,0);
   opacity: 0;
-  animation: floatUp 10s linear infinite;
-  box-shadow: 0 0 20px rgba(255,102,204,0.5);
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateY(-150px) rotate(360deg); opacity: 0; }
 }
 
 footer {
@@ -144,7 +136,7 @@ const photos = [
   "images/dasha4.jpg"
 ];
 
-// Эквалайзер полоски
+// Эквалайзер
 const equalizer = document.getElementById('equalizer');
 const bars = [];
 const numBars = 30;
@@ -155,29 +147,72 @@ for (let i = 0; i < numBars; i++) {
   bars.push(bar);
 }
 
-// Плавающие фото
+// Функция создания "летящей к пользователю" фотографии
 function spawnPhoto() {
   const photo = document.createElement('img');
   photo.src = photos[Math.floor(Math.random() * photos.length)];
   photo.classList.add('photo');
-  photo.style.left = Math.random() * (window.innerWidth - 140) + 'px';
-  photo.style.animationDuration = 8 + Math.random() * 6 + 's';
+  photo.style.left = (Math.random() * (window.innerWidth - 140)) + 'px';
   document.body.appendChild(photo);
-  setTimeout(() => photo.remove(), 14000);
+
+  let start = Date.now();
+  const duration = 4000 + Math.random() * 2000;
+  const startY = window.innerHeight + 100;
+  const endY = window.innerHeight / 2 - 60;
+  const maxScale = 2 + Math.random();
+
+  function animatePhoto() {
+    const now = Date.now();
+    const t = (now - start) / duration;
+    if (t < 1) {
+      // Плавный рост и движение
+      const y = startY - (startY - endY) * easeOutQuad(t);
+      const scale = 1 + (maxScale - 1) * easeOutQuad(t);
+      const rotate = t * 720; // два оборота
+      const opacity = Math.sin(t * Math.PI); // плавная прозрачность
+      photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
+      photo.style.opacity = opacity;
+      requestAnimationFrame(animatePhoto);
+    } else {
+      // Возвращаем назад
+      start = Date.now();
+      const returnDuration = duration;
+      const currentScale = maxScale;
+      const currentY = endY;
+      function returnAnimate() {
+        const t2 = (Date.now() - start) / returnDuration;
+        if (t2 < 1) {
+          const y = currentY + (startY - currentY) * easeInQuad(t2);
+          const scale = currentScale - (currentScale - 1) * easeInQuad(t2);
+          const rotate = 720 + t2 * 720;
+          const opacity = Math.cos(t2 * Math.PI / 2);
+          photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
+          photo.style.opacity = opacity;
+          requestAnimationFrame(returnAnimate);
+        } else {
+          photo.remove();
+        }
+      }
+      returnAnimate();
+    }
+  }
+  animatePhoto();
 }
 
+// easing функции
+function easeOutQuad(t) { return t*(2-t); }
+function easeInQuad(t) { return t*t; }
+
+// спавн фото каждые 1.5 сек
 setInterval(spawnPhoto, 1500);
 
-// Анимация эквалайзера
+// Эквалайзер
 const bgm = document.getElementById('bgm');
 let audioCtx, analyser, dataArray;
 
 function startAudio() {
   bgm.play().then(() => {
-    // скрываем кнопку после старта
     document.getElementById('playButton').style.display = 'none';
-    
-    // создаем аудио-контекст
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const source = audioCtx.createMediaElementSource(bgm);
     analyser = audioCtx.createAnalyser();
@@ -185,7 +220,6 @@ function startAudio() {
     source.connect(analyser);
     analyser.connect(audioCtx.destination);
     dataArray = new Uint8Array(analyser.frequencyBinCount);
-    
     renderFrame();
   }).catch(err => console.log('Нужен клик для старта аудио:', err));
 }
