@@ -11,11 +11,10 @@
       background: radial-gradient(circle at center, #1a1a1a, #000);
       height: 100vh;
       display: flex;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: flex-end;
-      flex-direction: row;
-      color: white;
       font-family: "Poppins", sans-serif;
+      color: white;
     }
 
     h1 {
@@ -24,7 +23,6 @@
       width: 100%;
       text-align: center;
       font-size: 2em;
-      color: #fff;
       animation: fadeIn 3s ease forwards;
       opacity: 0;
     }
@@ -34,14 +32,14 @@
     }
 
     .bar {
-      width: 60px;
-      margin: 0 5px;
-      border-radius: 10px;
+      width: 80px;
+      margin: 0 10px;
+      border-radius: 12px 12px 0 0;
       background-size: cover;
       background-position: center;
       transform-origin: bottom;
-      transition: transform 0.05s linear;
-      box-shadow: 0 0 10px rgba(255,102,204,0.6);
+      transition: height 0.05s linear;
+      box-shadow: 0 0 15px rgba(255,102,204,0.5);
     }
 
     footer {
@@ -58,18 +56,27 @@
       text-decoration: none;
       margin: 0 6px;
     }
+
+    .bars-container {
+      display: flex;
+      align-items: flex-end;
+      height: 60%;
+      position: absolute;
+      bottom: 100px;
+    }
   </style>
 </head>
 <body>
   <h1>С Днём Рождения, Даша 🎂💫</h1>
+
+  <div class="bars-container" id="barsContainer"></div>
 
   <footer>
     designed by <b>prostozhenyaaa</b><br>
     <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
   </footer>
 
-  <!-- Аудио -->
-  <audio id="bgm" src="music/papa_temnogo_princa.mp3" loop autoplay></audio>
+  <audio id="bgm" src="music/papa_temnogo_princa.mp3" loop></audio>
 
   <script>
     // Фотографии для эквалайзера
@@ -80,17 +87,20 @@
       "images/dasha4.jpg"
     ];
 
+    const container = document.getElementById('barsContainer');
     const bars = [];
+
+    // Создаём полосы-эквалайзер с фото
     photos.forEach(photo => {
       const bar = document.createElement('div');
       bar.classList.add('bar');
       bar.style.height = '50px';
       bar.style.backgroundImage = `url(${photo})`;
-      document.body.appendChild(bar);
+      container.appendChild(bar);
       bars.push(bar);
     });
 
-    // Настройка Web Audio API
+    // Web Audio API
     const audio = document.getElementById('bgm');
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     const audioCtx = new AudioContext();
@@ -99,22 +109,23 @@
     analyser.fftSize = 64;
     source.connect(analyser);
     analyser.connect(audioCtx.destination);
-
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
+    // Анимация эквалайзера
     function animate() {
       requestAnimationFrame(animate);
       analyser.getByteFrequencyData(dataArray);
 
-      for(let i = 0; i < bars.length; i++){
-        let value = dataArray[i] / 2 + 20; // масштабируем высоту
+      for (let i = 0; i < bars.length; i++) {
+        let value = dataArray[i] / 2 + 50; // высота полосы
         bars[i].style.height = value + 'px';
       }
     }
 
-    // Автозапуск аудио (если браузер блокирует автоплей, нужно взаимодействие)
+    // Автозапуск аудио
     audio.play().catch(() => {
-      console.log("Автоплей заблокирован, нужен клик пользователя");
+      // Если автоплей заблокирован, пользователь должен кликнуть где-то
+      console.log("Автоплей заблокирован браузером, нужна интеракция");
     });
 
     animate();
