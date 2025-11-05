@@ -15,7 +15,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #111;
+  background: linear-gradient(135deg, #111, #2d1b3d);
   position: relative;
   color: white;
   overflow: hidden;
@@ -31,6 +31,7 @@ h1 {
   text-shadow: 0 0 10px #ff66cc, 0 0 30px #ff66ff;
   opacity: 0;
   animation: fadeIn 3s forwards;
+  z-index: 10;
 }
 
 @keyframes fadeIn { to { opacity: 1; } }
@@ -50,6 +51,7 @@ h1 {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 10;
 }
 
 #playButton:hover {
@@ -71,6 +73,7 @@ h1 {
     0 0 30px rgba(255, 102, 204, 0.7),
     inset 0 0 15px rgba(255, 182, 193, 0.5);
   overflow: hidden;
+  z-index: 5;
 }
 
 #equalizerCanvas {
@@ -101,6 +104,7 @@ h1 {
   width: 70px;
   opacity: 0.9;
   animation: fall linear infinite;
+  z-index: 2;
 }
 
 @keyframes fall {
@@ -127,6 +131,16 @@ h1 {
   box-shadow: 0 0 20px rgba(255, 102, 204, 0.8),
               0 0 40px rgba(255, 102, 255, 0.5);
   transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 3;
+}
+
+/* Конфетти */
+.confetti {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  opacity: 0;
+  z-index: 2;
 }
 
 /* Footer */
@@ -136,11 +150,48 @@ footer {
   text-align: center;
   font-size: 14px;
   color: #ff99cc;
+  z-index: 10;
 }
 footer a {
   color: #ff66cc;
   text-decoration: none;
   margin: 0 6px;
+  transition: color 0.3s;
+}
+footer a:hover {
+  color: #ff99ff;
+}
+
+/* Сердечки */
+.heart {
+  position: absolute;
+  font-size: 24px;
+  color: #ff66cc;
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Сообщение */
+#message {
+  position: absolute;
+  top: 25%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  padding: 20px 30px;
+  border-radius: 15px;
+  text-align: center;
+  max-width: 80%;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+  z-index: 10;
+  box-shadow: 0 0 20px rgba(255, 102, 204, 0.5);
+}
+
+#message.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>
 </head>
@@ -156,6 +207,12 @@ footer a {
 <img class="cookie" src="images/cookie1.png" style="left:40%; animation-duration:11s; animation-delay:2s;">
 <img class="cookie" src="images/cookie1.png" style="left:70%; animation-duration:8s; animation-delay:1s;">
 
+<!-- Сообщение -->
+<div id="message">
+  <h2>С Днём Рождения! 🎉</h2>
+  <p>Пусть этот день будет наполнен радостью, смехом и самыми тёплыми пожеланиями! 💖</p>
+</div>
+
 <!-- Музыка -->
 <button id="playButton">Нажми 🎵</button>
 <audio id="bgm" loop>
@@ -169,7 +226,9 @@ footer a {
 
 <footer>
   designed by <b>prostozhenyaaa</b><br />
-  <a href="#">Instagram</a> | <a href="#">VK</a> | <a href="#">Telegram</a>
+  <a href="https://instagram.com/prostozhenyaaa" target="_blank">Instagram</a> | 
+  <a href="https://vk.com/prostozhenyaaa" target="_blank">VK</a> | 
+  <a href="https://t.me/prostozhenyaaa" target="_blank">Telegram</a>
 </footer>
 
 <script>
@@ -188,6 +247,7 @@ const canvas = document.getElementById("equalizerCanvas");
 const ctx = canvas.getContext("2d");
 const bgm = document.getElementById("bgm");
 const playButton = document.getElementById("playButton");
+const message = document.getElementById("message");
 
 function resizeCanvas() {
   const style = getComputedStyle(equalizerDiv);
@@ -282,15 +342,116 @@ function spawnPhoto(){
   animate();
 }
 
+// --- Конфетти ---
+function createConfetti() {
+  for (let i = 0; i < 150; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    
+    // Случайный цвет конфетти
+    const colors = ['#ff66cc', '#ff99ff', '#cc66ff', '#ffccff', '#ff66ff'];
+    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    
+    // Случайная форма
+    const shapes = ['circle', 'square', 'rectangle'];
+    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+    
+    if (shape === 'circle') {
+      confetti.style.borderRadius = '50%';
+    } else if (shape === 'rectangle') {
+      confetti.style.width = '8px';
+      confetti.style.height = '20px';
+    }
+    
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.top = '-20px';
+    
+    document.body.appendChild(confetti);
+    
+    // Анимация падения
+    const animation = confetti.animate([
+      { 
+        transform: `translateY(0) rotate(0deg)`,
+        opacity: 1
+      },
+      { 
+        transform: `translateY(${window.innerHeight + 100}px) rotate(${360 + Math.random() * 360}deg)`,
+        opacity: 0
+      }
+    ], {
+      duration: 3000 + Math.random() * 2000,
+      easing: 'cubic-bezier(0.1, 0.8, 0.8, 1)',
+      delay: Math.random() * 500
+    });
+    
+    animation.onfinish = () => confetti.remove();
+  }
+}
+
+// --- Сердечки ---
+function createHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.top = '100vh';
+    document.body.appendChild(heart);
+    
+    const animation = heart.animate([
+      { 
+        transform: 'translateY(0) scale(1)',
+        opacity: 1
+      },
+      { 
+        transform: `translateY(-${Math.random() * 300 + 200}px) scale(${0.5 + Math.random() * 0.5})`,
+        opacity: 0
+      }
+    ], {
+      duration: 2000 + Math.random() * 2000,
+      easing: 'ease-out'
+    });
+    
+    animation.onfinish = () => heart.remove();
+  }, 500);
+}
+
 // --- Кнопка ---
 playButton.addEventListener("click", ()=>{
   if(!audioCtx) setupAudio();
   bgm.play().then(()=>{
     drawWave();
     setInterval(spawnPhoto, 1500);
+    createConfetti();
+    createHearts();
+    
+    // Показываем сообщение
+    setTimeout(() => {
+      message.classList.add('show');
+    }, 1000);
+    
     playButton.style.display = "none";
+  }).catch(error => {
+    console.error("Ошибка воспроизведения музыки:", error);
+    alert("Не удалось воспроизвести музыку. Проверьте файл музыки.");
   });
 });
+
+// --- Добавляем больше печенек ---
+function addMoreCookies() {
+  for (let i = 0; i < 5; i++) {
+    const cookie = document.createElement("img");
+    cookie.classList.add("cookie");
+    cookie.src = "images/cookie1.png";
+    cookie.style.left = Math.random() * 100 + '%';
+    cookie.style.animationDuration = (7 + Math.random() * 6) + 's';
+    cookie.style.animationDelay = Math.random() * 5 + 's';
+    document.body.appendChild(cookie);
+  }
+}
+
+// Запускаем дополнительные печеньки при загрузке
+window.addEventListener('load', addMoreCookies);
 </script>
 
 </body>
