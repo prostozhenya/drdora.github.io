@@ -15,7 +15,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #111; /* тёмный фон */
+  background: #111;
   position: relative;
   color: white;
   overflow: hidden;
@@ -35,7 +35,7 @@ h1 {
 
 @keyframes fadeIn { to { opacity: 1; } }
 
-/* Кнопка запуска музыки */
+/* Кнопка запуска */
 #playButton {
   padding: 15px 40px;
   font-size: 1.3em;
@@ -43,7 +43,6 @@ h1 {
   border-radius: 25px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
   color: #fff;
   cursor: pointer;
   box-shadow: 0 0 20px rgba(255, 102, 204, 0.6);
@@ -58,7 +57,7 @@ h1 {
   box-shadow: 0 0 40px rgba(255, 102, 204, 0.9);
 }
 
-/* Canvas эквалайзера */
+/* Эквалайзер */
 #equalizer {
   position: absolute;
   bottom: 60px;
@@ -67,7 +66,6 @@ h1 {
   height: 90px;
   border-radius: 20px;
   backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
   background: rgba(255, 102, 204, 0.15);
   box-shadow:
     0 0 30px rgba(255, 102, 204, 0.7),
@@ -78,6 +76,43 @@ h1 {
 #equalizerCanvas {
   width: 100%;
   height: 100%;
+}
+
+/* Флаг */
+#flag {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 350px;
+  opacity: 0.9;
+  animation: float 5s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(-50%, -5px) rotate(-1deg); }
+  50% { transform: translate(-50%, 5px) rotate(1deg); }
+}
+
+/* Печенья */
+.cookie {
+  position: absolute;
+  width: 90px;
+  opacity: 0.9;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0.8;
+  }
 }
 
 /* Фото */
@@ -113,11 +148,19 @@ footer a {
 
 <h1>С Днём Рождения, Даша 🎂💫</h1>
 
+<!-- Флаг -->
+<img id="flag" src="images/flag.png" alt="Флаг">
+
+<!-- Печенья -->
+<img class="cookie" src="images/cookie1.png" style="left:10%; animation-duration:9s; animation-delay:0s;">
+
+<!-- Музыка -->
 <button id="playButton">Нажми 🎵</button>
 <audio id="bgm" loop>
   <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg" />
 </audio>
 
+<!-- Эквалайзер -->
 <div id="equalizer">
   <canvas id="equalizerCanvas"></canvas>
 </div>
@@ -128,7 +171,7 @@ footer a {
 </footer>
 
 <script>
-// --- Фото для анимации ---
+// --- Фотографии ---
 const photos = [
   "images/dasha1.jpg",
   "images/dasha2.jpg",
@@ -137,7 +180,7 @@ const photos = [
   "images/dasha5.jpg",
 ];
 
-// --- Canvas эквалайзера ---
+// --- Эквалайзер ---
 const equalizerDiv = document.getElementById("equalizer");
 const canvas = document.getElementById("equalizerCanvas");
 const ctx = canvas.getContext("2d");
@@ -237,7 +280,7 @@ function spawnPhoto(){
   animate();
 }
 
-// --- Кнопка запуска ---
+// --- Кнопка ---
 playButton.addEventListener("click", ()=>{
   if(!audioCtx) setupAudio();
   bgm.play().then(()=>{
@@ -250,6 +293,3 @@ playButton.addEventListener("click", ()=>{
 
 </body>
 </html>
-
-
-
