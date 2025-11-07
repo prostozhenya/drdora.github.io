@@ -10,7 +10,7 @@
 body {
   margin: 0;
   height: 100vh;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans‑serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@ body {
   position: relative;
 }
 
-/* === Заголовок в стиле cute rock === */
+/* Заголовок */
 h1 {
   font-family: 'Luckiest Guy', cursive;
   font-size: 3em;
@@ -31,30 +31,26 @@ h1 {
   opacity: 0;
   animation: fadeIn 2s forwards;
 }
-
 @keyframes fadeIn { to { opacity: 1; } }
 
-/* === ФЛАГ === */
+/* Флаг */
 .flag {
   position: absolute;
   top: 15%;
   right: 10%;
   width: 220px;
   opacity: 1;
-  filter: drop-shadow(0 0 15px rgba(255,102,204,0.7))
-          drop-shadow(0 0 30px rgba(255,182,193,0.4));
+  filter: drop-shadow(0 0 15px rgba(255,102,204,0.7)) drop-shadow(0 0 30px rgba(255,182,193,0.4));
   transform-origin: left center;
   animation: flagAppear 1.5s ease forwards 1s, flagWave 5s ease-in-out infinite 2.5s;
   transition: opacity 1s ease, transform 1s ease;
   border-radius: 15px;
   border: 3px solid #fff;
 }
-
 @keyframes flagAppear {
   from { transform: translateY(-30px) scale(0.9); opacity: 0; }
   to { transform: translateY(0) scale(1); opacity: 1; }
 }
-
 @keyframes flagWave {
   0% { transform: rotateZ(-2deg) skewY(0deg); }
   25% { transform: rotateZ(2deg) skewY(2deg); }
@@ -62,17 +58,15 @@ h1 {
   75% { transform: rotateZ(1deg) skewY(1deg); }
   100% { transform: rotateZ(-2deg) skewY(0deg); }
 }
-
 .flag.hide {
   animation: flagDisappear 1s forwards;
 }
-
 @keyframes flagDisappear {
   from { opacity: 1; transform: translateY(0) rotateZ(0deg) scale(1); }
   to { opacity: 0; transform: translateY(-80px) rotate(-10deg) scale(0.8); }
 }
 
-/* === ПЕЧЕНЬКА cute === */
+/* Печенька */
 .cookie {
   position: absolute;
   bottom: 15%;
@@ -80,39 +74,33 @@ h1 {
   width: 120px;
   opacity: 0;
   transform: scale(0.8);
-  filter: drop-shadow(0 0 10px rgba(255,182,193,0.6))
-          drop-shadow(0 0 20px rgba(255,102,204,0.3));
+  filter: drop-shadow(0 0 10px rgba(255,182,193,0.6)) drop-shadow(0 0 20px rgba(255,102,204,0.3));
   border-radius: 50%;
   border: 2px solid #fff;
   background: radial-gradient(circle at 30% 30%, #fff0, #ffccd9);
 }
-
 .cookie.show {
   animation: cookieAppear 1.5s ease forwards, cookieFloat 6s ease-in-out infinite 1.5s;
 }
-
 .cookie.hide {
   animation: cookieDisappear 1s forwards;
 }
-
 @keyframes cookieAppear {
   from { transform: translateY(30px) scale(0.8); opacity: 0; }
   to { transform: translateY(0) scale(1); opacity: 1; }
 }
-
 @keyframes cookieFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  0%,100% { transform: translateY(0) rotate(0deg) scale(1); }
   25% { transform: translateY(-10px) rotate(-6deg) scale(1.05); }
   50% { transform: translateY(0) rotate(4deg) scale(1); }
   75% { transform: translateY(8px) rotate(-4deg) scale(1.03); }
 }
-
 @keyframes cookieDisappear {
   from { opacity: 1; transform: translateY(0) scale(1); }
   to { opacity: 0; transform: translateY(-50px) scale(0.8); }
 }
 
-/* === Кнопка cute rock === */
+/* Кнопка */
 #playButton {
   padding: 15px 45px;
   font-size: 1.3em;
@@ -128,13 +116,12 @@ h1 {
   transform: translateY(-50%);
   font-family: 'Luckiest Guy', cursive;
 }
-
 #playButton:hover {
   transform: translateY(-50%) scale(1.1);
   box-shadow: 0 0 40px rgba(255, 102, 204, 0.9);
 }
 
-/* === Эквалайзер cute rock === */
+/* Эквалайзер */
 #equalizer {
   position: absolute;
   bottom: 60px;
@@ -144,18 +131,12 @@ h1 {
   border-radius: 25px;
   backdrop-filter: blur(20px) saturate(180%);
   background: rgba(255, 182, 193, 0.15);
-  box-shadow:
-    0 0 30px rgba(255, 102, 204, 0.7),
-    inset 0 0 15px rgba(255, 182, 193, 0.5);
+  box-shadow: 0 0 30px rgba(255, 102, 204, 0.7), inset 0 0 15px rgba(255, 182, 193, 0.5);
   overflow: hidden;
 }
+#equalizerCanvas { width: 100%; height: 100%; }
 
-#equalizerCanvas {
-  width: 100%;
-  height: 100%;
-}
-
-/* === Фото cute rock === */
+/* Фото */
 .photo {
   position: absolute;
   width: 120px;
@@ -164,13 +145,12 @@ h1 {
   object-fit: cover;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 20px rgba(255, 102, 204, 0.8),
-              0 0 40px rgba(255, 102, 255, 0.5);
+  box-shadow: 0 0 20px rgba(255, 102, 204, 0.8), 0 0 40px rgba(255, 102, 255, 0.5);
   transition: transform 0.3s ease, opacity 0.3s ease;
   border: 3px solid #fff;
 }
 
-/* === Footer cute rock === */
+/* Footer */
 footer {
   position: absolute;
   bottom: 20px;
@@ -183,10 +163,9 @@ footer a {
   color: #ff3399;
   text-decoration: none;
   margin: 0 6px;
-  font-weight: bold;
 }
 
-/* === Cute floating stars === */
+/* Маленькие звёздочки */
 .star {
   position: absolute;
   width: 6px;
@@ -196,7 +175,6 @@ footer a {
   opacity: 0.8;
   animation: starTwinkle 2s infinite alternate;
 }
-
 @keyframes starTwinkle {
   0% { opacity: 0.2; transform: scale(0.6); }
   100% { opacity: 1; transform: scale(1.2); }
@@ -227,11 +205,10 @@ footer a {
 
 <script>
 const photos = [
-  "images/dasha1.jpg",
-  "images/dasha2.jpg",
-  "images/dasha3.jpg",
-  "images/dasha4.jpg",
-  "images/dasha5.jpg",
+  "https://upload.wikimedia.org/wikipedia/commons/8/8d/Dora_%28singer%29_2022.jpg",
+  "https://i.imgur.com/yourImage1.jpg",  // замените на реальные ссылки
+  "https://i.imgur.com/yourImage2.jpg",
+  "https://i.imgur.com/yourImage3.jpg"
 ];
 
 const equalizerDiv = document.getElementById("equalizer");
@@ -291,18 +268,19 @@ function drawWave() {
   ctx.fillStyle = gradientFill;
   ctx.beginPath();
 
-  for (let i=0;i<pointsCount;i++){
-    const x = i*waveLength;
-    const amp = dataArray[i]/255;
-    const y = baseY - (Math.sin(i*0.3 + performance.now()/400)*20 +
-                        Math.sin(i*0.1 + performance.now()/200)*15)*amp -
-                        amp*40;
-    if(i===0) ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
+  for (let i=0; i<pointsCount; i++){
+    const x = i * waveLength;
+    const amp = dataArray[i] / 255;
+    const y = baseY - (
+        (Math.sin(i*0.3 + performance.now()/400)*20) +
+        (Math.sin(i*0.1 + performance.now()/200)*15)
+      )*amp - amp*40;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
   }
   ctx.stroke();
-  ctx.lineTo(width,height);
-  ctx.lineTo(0,height);
+  ctx.lineTo(width, height);
+  ctx.lineTo(0, height);
   ctx.closePath();
   ctx.fill();
 }
@@ -311,19 +289,19 @@ function spawnPhoto(){
   const photo = document.createElement("img");
   photo.src = photos[Math.floor(Math.random()*photos.length)];
   photo.classList.add("photo");
-  photo.style.left = 50 + Math.random()*(window.innerWidth-100)+"px";
+  photo.style.left = 50 + Math.random()*(window.innerWidth-100) + "px";
   document.body.appendChild(photo);
 
   const startTime = Date.now();
   const duration = 3500 + Math.random()*1500;
 
   function animate(){
-    const t = (Date.now() - startTime)/duration;
-    if(t<1){
-      const y = -150 + (window.innerHeight+200)*Math.sin(t*Math.PI/2);
+    const t = (Date.now() - startTime) / duration;
+    if (t < 1){
+      const y = -150 + (window.innerHeight + 200) * Math.sin(t*Math.PI/2);
       const scale = 0.8 + 0.5 * Math.sin(t*Math.PI);
-      const rotate = t*360;
-      const opacity = Math.sin(t*Math.PI);
+      const rotate = t * 360;
+      const opacity = Math.sin(t * Math.PI);
       photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
       photo.style.opacity = opacity;
       requestAnimationFrame(animate);
@@ -334,19 +312,18 @@ function spawnPhoto(){
   animate();
 }
 
-// cute stars floating in background
-for(let i=0;i<30;i++){
+// создаём звёздочки
+for (let i = 0; i < 30; i++){
   const star = document.createElement("div");
   star.classList.add("star");
-  star.style.left = Math.random()*100+"%";
-  star.style.top = Math.random()*100+"%";
-  star.style.width = 3+Math.random()*5+"px";
-  star.style.height = 3+Math.random()*5+"px";
-  star.style.animationDuration = 1+Math.random()*3+"s";
+  star.style.left = Math.random()*100 + "%";
+  star.style.top = Math.random()*100 + "%";
+  star.style.width = (3 + Math.random()*5) + "px";
+  star.style.height = star.style.width;
+  star.style.animationDuration = (1 + Math.random()*3) + "s";
   document.body.appendChild(star);
 }
 
-// --- Кнопка запуска ---
 playButton.addEventListener("click", ()=>{
   flag.classList.add("hide");
   cookie.classList.add("show");
@@ -357,7 +334,7 @@ playButton.addEventListener("click", ()=>{
   }, 3000);
 
   setTimeout(()=>{
-    if(!audioCtx) setupAudio();
+    if (!audioCtx) setupAudio();
     bgm.play().then(()=>{
       drawWave();
       setInterval(spawnPhoto, 1500);
