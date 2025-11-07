@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>С Днём Рождения, Даша 💖</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Luckiest+Guy&display=swap');
 
 body {
   margin: 0;
@@ -15,22 +15,21 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: #111;
-  position: relative;
-  color: white;
+  background: linear-gradient(135deg, #ffe0f0, #ffd9e8, #ffeefc);
+  color: #333;
   overflow: hidden;
+  position: relative;
 }
 
-/* Заголовок */
+/* === Заголовок в стиле cute rock === */
 h1 {
-  position: absolute;
-  top: 10%;
+  font-family: 'Luckiest Guy', cursive;
   font-size: 3em;
+  color: #ff3399;
+  text-shadow: 0 2px #fff, 0 5px #ff99cc;
   text-align: center;
-  color: #ff99cc;
-  text-shadow: 0 0 10px #ff66cc, 0 0 30px #ff66ff;
   opacity: 0;
-  animation: fadeIn 3s forwards;
+  animation: fadeIn 2s forwards;
 }
 
 @keyframes fadeIn { to { opacity: 1; } }
@@ -38,7 +37,7 @@ h1 {
 /* === ФЛАГ === */
 .flag {
   position: absolute;
-  top: 22%;
+  top: 15%;
   right: 10%;
   width: 220px;
   opacity: 1;
@@ -47,6 +46,8 @@ h1 {
   transform-origin: left center;
   animation: flagAppear 1.5s ease forwards 1s, flagWave 5s ease-in-out infinite 2.5s;
   transition: opacity 1s ease, transform 1s ease;
+  border-radius: 15px;
+  border: 3px solid #fff;
 }
 
 @keyframes flagAppear {
@@ -54,7 +55,6 @@ h1 {
   to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* "развевание" флага */
 @keyframes flagWave {
   0% { transform: rotateZ(-2deg) skewY(0deg); }
   25% { transform: rotateZ(2deg) skewY(2deg); }
@@ -63,7 +63,6 @@ h1 {
   100% { transform: rotateZ(-2deg) skewY(0deg); }
 }
 
-/* эффект исчезновения флага */
 .flag.hide {
   animation: flagDisappear 1s forwards;
 }
@@ -73,24 +72,25 @@ h1 {
   to { opacity: 0; transform: translateY(-80px) rotate(-10deg) scale(0.8); }
 }
 
-/* === ПЕЧЕНЬКА === */
+/* === ПЕЧЕНЬКА cute === */
 .cookie {
   position: absolute;
-  bottom: 18%;
+  bottom: 15%;
   left: 10%;
   width: 120px;
   opacity: 0;
   transform: scale(0.8);
-  filter: drop-shadow(0 0 15px rgba(255,182,193,0.6))
-          drop-shadow(0 0 30px rgba(255,102,204,0.3));
+  filter: drop-shadow(0 0 10px rgba(255,182,193,0.6))
+          drop-shadow(0 0 20px rgba(255,102,204,0.3));
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: radial-gradient(circle at 30% 30%, #fff0, #ffccd9);
 }
 
-/* Появление печеньки */
 .cookie.show {
   animation: cookieAppear 1.5s ease forwards, cookieFloat 6s ease-in-out infinite 1.5s;
 }
 
-/* Исчезновение печеньки */
 .cookie.hide {
   animation: cookieDisappear 1s forwards;
 }
@@ -112,15 +112,13 @@ h1 {
   to { opacity: 0; transform: translateY(-50px) scale(0.8); }
 }
 
-/* Кнопка запуска музыки */
+/* === Кнопка cute rock === */
 #playButton {
-  padding: 15px 40px;
+  padding: 15px 45px;
   font-size: 1.3em;
   border: none;
-  border-radius: 25px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-radius: 30px;
+  background: linear-gradient(45deg, #ff99cc, #ff66ff);
   color: #fff;
   cursor: pointer;
   box-shadow: 0 0 20px rgba(255, 102, 204, 0.6);
@@ -128,6 +126,7 @@ h1 {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  font-family: 'Luckiest Guy', cursive;
 }
 
 #playButton:hover {
@@ -135,17 +134,16 @@ h1 {
   box-shadow: 0 0 40px rgba(255, 102, 204, 0.9);
 }
 
-/* Canvas эквалайзера */
+/* === Эквалайзер cute rock === */
 #equalizer {
   position: absolute;
   bottom: 60px;
   width: 90%;
   max-width: 900px;
   height: 90px;
-  border-radius: 20px;
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  background: rgba(255, 102, 204, 0.15);
+  border-radius: 25px;
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255, 182, 193, 0.15);
   box-shadow:
     0 0 30px rgba(255, 102, 204, 0.7),
     inset 0 0 15px rgba(255, 182, 193, 0.5);
@@ -157,43 +155,59 @@ h1 {
   height: 100%;
 }
 
-/* Фото */
+/* === Фото cute rock === */
 .photo {
   position: absolute;
   width: 120px;
   height: 120px;
-  border-radius: 20px;
+  border-radius: 25px;
   object-fit: cover;
   pointer-events: none;
   transform: translate(-50%, -50%);
   box-shadow: 0 0 20px rgba(255, 102, 204, 0.8),
               0 0 40px rgba(255, 102, 255, 0.5);
   transition: transform 0.3s ease, opacity 0.3s ease;
+  border: 3px solid #fff;
 }
 
-/* Footer */
+/* === Footer cute rock === */
 footer {
   position: absolute;
   bottom: 20px;
   text-align: center;
   font-size: 14px;
-  color: #ff99cc;
+  color: #ff66cc;
+  font-weight: 600;
 }
 footer a {
-  color: #ff66cc;
+  color: #ff3399;
   text-decoration: none;
   margin: 0 6px;
+  font-weight: bold;
+}
+
+/* === Cute floating stars === */
+.star {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: starTwinkle 2s infinite alternate;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.2; transform: scale(0.6); }
+  100% { opacity: 1; transform: scale(1.2); }
 }
 </style>
 </head>
 <body>
 
-<h1>С Днём Рождения, Даша 🎂💫</h1>
+<h1>С Днём Рождения, Даша 🎸💖</h1>
 
-<!-- Флаг -->
 <img src="images/flag.png" alt="флаг" class="flag" id="flag">
-
-<!-- Печенька -->
 <img src="images/cookie.png" alt="печенька" class="cookie" id="cookie">
 
 <button id="playButton">Нажми 🎵</button>
@@ -266,8 +280,8 @@ function drawWave() {
   ctx.lineCap = "round";
 
   const gradientLine = ctx.createLinearGradient(0,0,width,0);
-  gradientLine.addColorStop(0,"rgba(255,102,204,1)");
-  gradientLine.addColorStop(1,"rgba(180,50,230,1)");
+  gradientLine.addColorStop(0,"#ff66cc");
+  gradientLine.addColorStop(1,"#ff3399");
 
   const gradientFill = ctx.createLinearGradient(0,0,0,height);
   gradientFill.addColorStop(0,"rgba(255,102,204,0.4)");
@@ -320,15 +334,23 @@ function spawnPhoto(){
   animate();
 }
 
+// cute stars floating in background
+for(let i=0;i<30;i++){
+  const star = document.createElement("div");
+  star.classList.add("star");
+  star.style.left = Math.random()*100+"%";
+  star.style.top = Math.random()*100+"%";
+  star.style.width = 3+Math.random()*5+"px";
+  star.style.height = 3+Math.random()*5+"px";
+  star.style.animationDuration = 1+Math.random()*3+"s";
+  document.body.appendChild(star);
+}
+
 // --- Кнопка запуска ---
 playButton.addEventListener("click", ()=>{
-  // Флаг исчезает
   flag.classList.add("hide");
-
-  // Печенька появляется
   cookie.classList.add("show");
 
-  // Печенька исчезает через 3 секунды
   setTimeout(()=>{
     cookie.classList.remove("show");
     cookie.classList.add("hide");
