@@ -9,28 +9,27 @@
 
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   font-family: 'Poppins', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: linear-gradient(135deg,#1a0f2c,#2c1f4d);
-  position: relative;
+  background: linear-gradient(135deg, #1a0f2c, #2c1f4d);
   color: white;
   overflow: hidden;
+  position: relative;
 }
 
 /* Заголовок */
 h1 {
-  position: absolute;
-  top: 10%;
-  font-size: 3em;
+  font-size: clamp(1.8em, 4vw, 3em);
   text-align: center;
   color: #cda4ff;
   text-shadow: 0 0 10px #b080ff, 0 0 30px #a060ff;
   opacity: 0;
   animation: fadeIn 3s forwards;
+  margin-top: 10vh;
 }
 
 @keyframes fadeIn { to { opacity: 1; } }
@@ -38,9 +37,9 @@ h1 {
 /* === ФЛАГ === */
 .flag {
   position: absolute;
-  top: 22%;
+  top: 20%;
   right: 10%;
-  width: 220px;
+  width: clamp(140px, 25vw, 220px);
   opacity: 1;
   filter: drop-shadow(0 0 15px rgba(120,90,220,0.7))
           drop-shadow(0 0 30px rgba(180,155,250,0.4));
@@ -73,7 +72,7 @@ h1 {
   position: absolute;
   bottom: 18%;
   left: 10%;
-  width: 120px;
+  width: clamp(80px, 18vw, 120px);
   opacity: 1;
   transform: scale(1);
   filter: drop-shadow(0 0 15px rgba(180,155,250,0.6))
@@ -96,8 +95,8 @@ h1 {
 
 /* Кнопка запуска музыки */
 #playButton {
-  padding: 15px 40px;
-  font-size: 1.3em;
+  padding: 14px 35px;
+  font-size: clamp(1em, 3vw, 1.3em);
   border: none;
   border-radius: 25px;
   background: rgba(255, 255, 255, 0.05);
@@ -106,13 +105,12 @@ h1 {
   cursor: pointer;
   box-shadow: 0 0 20px rgba(120,90,220,0.6);
   transition: 0.3s;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
+  margin-top: 25vh;
 }
 
 #playButton:hover {
-  transform: translateY(-50%) scale(1.1);
+  transform: scale(1.1);
   box-shadow: 0 0 40px rgba(180,155,250,0.9);
 }
 
@@ -122,10 +120,9 @@ h1 {
   bottom: 60px;
   width: 90%;
   max-width: 900px;
-  height: 120px;
+  height: clamp(80px, 12vh, 120px);
   border-radius: 25px;
   backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
   background: rgba(30, 20, 50, 0.15);
   box-shadow:
     0 0 30px rgba(180,155,250,0.6),
@@ -141,8 +138,8 @@ h1 {
 /* Фото */
 .photo {
   position: absolute;
-  width: 120px;
-  height: 120px;
+  width: clamp(80px, 12vw, 120px);
+  height: clamp(80px, 12vw, 120px);
   border-radius: 20px;
   object-fit: cover;
   pointer-events: none;
@@ -171,9 +168,9 @@ h1 {
 /* Footer */
 footer {
   position: absolute;
-  bottom: 20px;
+  bottom: 15px;
   text-align: center;
-  font-size: 14px;
+  font-size: clamp(10px, 2.5vw, 14px);
   color: #b080ff;
 }
 footer a {
@@ -181,16 +178,26 @@ footer a {
   text-decoration: none;
   margin: 0 6px;
 }
+
+/* === АДАПТАЦИЯ === */
+@media (max-width: 600px) {
+  .flag { right: 5%; top: 15%; }
+  .cookie { left: 5%; bottom: 10%; }
+  #equalizer { bottom: 40px; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  h1 { margin-top: 5vh; font-size: 2em; }
+  #playButton { margin-top: 10vh; }
+  #equalizer { bottom: 20px; height: 80px; }
+}
 </style>
 </head>
 <body>
 
 <h1>С Днём Рождения, Даша 🎂💫</h1>
 
-<!-- Флаг -->
 <img src="images/flag.png" alt="флаг" class="flag" id="flag">
-
-<!-- Печенька -->
 <img src="images/cookie.png" alt="печенька" class="cookie" id="cookie">
 
 <button id="playButton">Нажми 🎵</button>
@@ -240,128 +247,4 @@ window.addEventListener("resize", resizeCanvas);
 let audioCtx, source, analyser, dataArray;
 function setupAudio() {
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  source = audioCtx.createMediaElementSource(bgm);
-  analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 128;
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
-  dataArray = new Uint8Array(analyser.frequencyBinCount);
-}
-
-// --- Новый современный эквалайзер ---
-function drawModernWave(){
-  requestAnimationFrame(drawModernWave);
-  if(!analyser) return;
-  analyser.getByteFrequencyData(dataArray);
-  const width = canvas.width / window.devicePixelRatio;
-  const height = canvas.height / window.devicePixelRatio;
-  ctx.clearRect(0,0,width,height);
-
-  const points = dataArray.length;
-  const waveLength = width / (points-1);
-  const baseY = height*0.55;
-
-  const gradientLine = ctx.createLinearGradient(0,0,width,0);
-  gradientLine.addColorStop(0,"rgba(180,155,250,0.9)");
-  gradientLine.addColorStop(0.5,"rgba(120,90,220,0.8)");
-  gradientLine.addColorStop(1,"rgba(200,160,255,0.9)");
-
-  const gradientFill = ctx.createLinearGradient(0,0,0,height);
-  gradientFill.addColorStop(0,"rgba(180,155,250,0.25)");
-  gradientFill.addColorStop(1,"rgba(120,90,220,0.05)");
-
-  ctx.lineWidth = 6;
-  ctx.lineJoin = "round";
-  ctx.lineCap = "round";
-  ctx.strokeStyle = gradientLine;
-  ctx.fillStyle = gradientFill;
-  ctx.beginPath();
-
-  for(let i=0;i<points;i++){
-    const x = i*waveLength;
-    const amp = dataArray[i]/255;
-    const y = baseY 
-      - Math.sin(i*0.3 + performance.now()/500)*25*amp 
-      - Math.sin(i*0.1 + performance.now()/300)*18*amp 
-      - amp*30;
-
-    if(i===0) ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
-  }
-
-  ctx.lineTo(width,height);
-  ctx.lineTo(0,height);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-}
-
-// --- Фото ---
-function spawnPhoto(){
-  const photo = document.createElement("img");
-  photo.src = photos[Math.floor(Math.random()*photos.length)];
-  photo.classList.add("photo");
-  photo.style.left = 50 + Math.random()*(window.innerWidth-100)+"px";
-  document.body.appendChild(photo);
-
-  const startTime = Date.now();
-  const duration = 3500 + Math.random()*1500;
-
-  function animate(){
-    const t = (Date.now() - startTime)/duration;
-    if(t<1){
-      const y = -150 + (window.innerHeight+200)*Math.sin(t*Math.PI/2);
-      const scale = 0.8 + 0.5 * Math.sin(t*Math.PI);
-      const rotate = t*360;
-      const opacity = Math.sin(t*Math.PI);
-      photo.style.transform = `translate(-50%, ${y}px) scale(${scale}) rotate(${rotate}deg)`;
-      photo.style.opacity = opacity;
-      requestAnimationFrame(animate);
-    } else {
-      photo.remove();
-    }
-  }
-  animate();
-}
-
-// --- Снег ---
-function createSnowflake(){
-  const flake = document.createElement("div");
-  flake.className = "snowflake";
-  flake.style.left = Math.random()*100 + "vw";
-  flake.style.fontSize = (8+Math.random()*12)+"px";
-  flake.style.animationDuration = (5+Math.random()*5)+"s";
-  flake.textContent = "❄";
-  document.body.appendChild(flake);
-  setTimeout(()=>flake.remove(), 10000);
-}
-setInterval(createSnowflake, 300);
-
-// --- Кнопка запуска ---
-playButton.addEventListener("click", ()=>{
-    // Останавливаем анимации флага и печеньки
-    flag.style.animation = "none";
-    cookie.style.animation = "none";
-
-    // Форсируем перерасчет стилей
-    void flag.offsetHeight;
-    void cookie.offsetHeight;
-
-    // Добавляем класс hide
-    flag.classList.add("hide");
-    cookie.classList.add("hide");
-
-    // Запуск музыки и эквалайзера
-    setTimeout(()=>{
-        if(!audioCtx) setupAudio();
-        bgm.play().then(()=>{
-            drawModernWave();
-            setInterval(spawnPhoto, 1300);
-            playButton.style.display = "none";
-        });
-    }, 500);
-});
-</script>
-
-</body>
-</html>
+  source = audioCtx.createMediaElementSource(b
