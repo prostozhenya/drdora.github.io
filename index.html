@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>С Днём Рождения, Даша 💖</title>
 <style>
-/* Базовые сбросы */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; font-family: Arial, sans-serif; }
+html, body { height: 100%; font-family: Arial, Helvetica, sans-serif; }
 
-/* Основные стили */
 body {
+    background: #1a0f2c;
     background: linear-gradient(135deg, #1a0f2c, #2c1f4d);
     color: #fff;
     display: flex;
@@ -19,13 +18,12 @@ body {
     align-items: center;
     text-align: center;
     padding: 20px;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
-.app {
+.container {
     width: 100%;
     max-width: 800px;
-    position: relative;
 }
 
 h1 {
@@ -33,10 +31,9 @@ h1 {
     color: #cda4ff;
     text-shadow: 0 0 10px #b080ff;
     margin-bottom: 30px;
-    line-height: 1.2;
+    line-height: 1.3;
 }
 
-/* Адаптивные размеры */
 @media (max-width: 768px) {
     h1 { font-size: 2rem; }
 }
@@ -45,101 +42,164 @@ h1 {
     h1 { font-size: 1.5rem; margin-bottom: 20px; }
 }
 
-/* Кнопка */
 #playButton {
-    background: rgba(120, 90, 220, 0.6);
+    background: #6b4c9c;
+    background: linear-gradient(135deg, #6b4c9c, #8a6bbd);
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
+    padding: 16px 32px;
+    font-size: 1.3rem;
     color: white;
-    border-radius: 25px;
+    border-radius: 50px;
     cursor: pointer;
     margin: 20px 0;
-    box-shadow: 0 0 20px rgba(120, 90, 220, 0.7);
+    box-shadow: 0 0 25px rgba(107, 76, 156, 0.8);
     transition: all 0.3s ease;
+    font-weight: bold;
 }
 
 #playButton:hover {
-    background: rgba(120, 90, 220, 0.8);
+    background: linear-gradient(135deg, #8a6bbd, #9d7ccc);
     transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(107, 76, 156, 1);
+}
+
+#playButton:active {
+    transform: scale(0.95);
 }
 
 #playButton.hidden {
-    opacity: 0;
-    transform: scale(0.8);
-    pointer-events: none;
+    display: none;
 }
 
 /* Декоративные элементы */
-.decorative-image {
-    position: absolute;
-    max-width: 150px;
+.deco {
+    position: fixed;
+    max-width: 120px;
     opacity: 0.9;
-    z-index: 10;
-}
-
-.flag {
-    top: 10%;
-    right: 5%;
+    z-index: 1;
     animation: float 6s ease-in-out infinite;
 }
 
-.cookie {
-    bottom: 10%;
-    left: 5%;
-    animation: float 7s ease-in-out infinite 1s;
-}
-
-.character {
-    max-width: 120px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-}
-
-.naruto { top: 15%; left: 5%; animation: float 5s ease-in-out infinite 0.5s; }
-.sakura { bottom: 20%; right: 8%; animation: float 6s ease-in-out infinite 1.5s; }
-.wanpis { bottom: 15%; left: 10%; animation: float 7s ease-in-out infinite 2s; }
+.flag { top: 10%; right: 5%; }
+.cookie { bottom: 10%; left: 5%; animation-delay: 1s; }
+.naruto { top: 15%; left: 5%; animation-delay: 0.5s; max-width: 100px; }
+.sakura { bottom: 20%; right: 8%; animation-delay: 1.5s; max-width: 100px; }
+.wanpis { bottom: 15%; left: 10%; animation-delay: 2s; max-width: 100px; }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); }
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
 }
 
 /* Эквалайзер */
-#equalizer {
+#visualizer {
     width: 90%;
     max-width: 600px;
-    height: 80px;
-    background: rgba(30, 20, 50, 0.3);
-    border-radius: 15px;
-    margin: 20px auto;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin: 30px auto;
     overflow: hidden;
-    position: relative;
+    display: none;
 }
 
-#equalizerCanvas {
-    width: 100%;
-    height: 100%;
-    display: block;
+.visualizer-bar {
+    width: 8px;
+    background: linear-gradient(to top, #8a2be2, #b080ff);
+    margin: 0 2px;
+    border-radius: 4px;
+    display: inline-block;
 }
 
-/* Фото-пузырьки */
+/* Сообщения */
+.message {
+    display: none;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+    border: 2px solid #b080ff;
+    max-width: 500px;
+}
+
+.message button {
+    background: #b080ff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 1rem;
+}
+
+.message button:hover {
+    background: #cda4ff;
+}
+
+/* Футер */
+footer {
+    margin-top: 40px;
+    color: #b080ff;
+    font-size: 0.9rem;
+}
+
+.telegram-link {
+    color: #cda4ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.telegram-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Эффекты частиц */
+.particle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 2;
+    animation: particleFloat 3s linear forwards;
+}
+
+@keyframes particleFloat {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100px) rotate(180deg); opacity: 0; }
+}
+
+/* Индикатор загрузки */
+.loader {
+    display: none;
+    color: #cda4ff;
+    margin: 10px 0;
+    font-size: 1.1rem;
+}
+
+/* Мобильные стили */
+@media (max-height: 600px) {
+    .deco { max-width: 80px; }
+    h1 { font-size: 1.8rem; margin-bottom: 15px; }
+    #playButton { padding: 12px 24px; font-size: 1.1rem; }
+}
+
+/* Фото пузырьки */
 .photo-bubble {
-    position: absolute;
-    width: 80px;
-    height: 80px;
+    position: fixed;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 0 15px rgba(180, 155, 250, 0.8);
-    animation: bubbleFloat 8s linear infinite;
-    opacity: 0;
+    background: linear-gradient(45deg, #ff6b6b, #ffa500);
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.7);
+    animation: bubbleFloat 8s linear forwards;
+    z-index: 3;
 }
 
 @keyframes bubbleFloat {
-    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+    0% { transform: translateY(100vh) scale(0.3); opacity: 0; }
     10% { opacity: 1; }
     90% { opacity: 1; }
-    100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    100% { transform: translateY(-100px) scale(1); opacity: 0; }
 }
 
 /* Снежинки */
@@ -149,125 +209,59 @@ h1 {
     color: #fff;
     opacity: 0.6;
     pointer-events: none;
-    animation: snowFall linear infinite;
+    z-index: 2;
+    animation: snowFall linear forwards;
 }
 
 @keyframes snowFall {
     to { transform: translateY(100vh) rotate(360deg); }
 }
-
-/* Футер */
-footer {
-    margin-top: 30px;
-    color: #b080ff;
-    font-size: 0.9rem;
-}
-
-.telegram-link {
-    color: #cda4ff;
-    text-decoration: none;
-}
-
-.telegram-link:hover {
-    color: #fff;
-    text-shadow: 0 0 10px #b080ff;
-}
-
-/* Сообщения */
-#errorMessage, #browserMessage {
-    display: none;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-    margin: 10px 0;
-    border: 1px solid #b080ff;
-}
-
-#browserMessage button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background: #b080ff;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-}
-
-/* Индикатор загрузки */
-.loading {
-    display: none;
-    color: #cda4ff;
-    margin: 10px 0;
-}
-
-/* Запасные изображения */
-.fallback-image {
-    display: none;
-    background: rgba(120, 90, 220, 0.2);
-    border: 2px dashed rgba(180, 155, 250, 0.5);
-    color: #cda4ff;
-    text-align: center;
-    padding: 20px;
-    border-radius: 10px;
-}
 </style>
 </head>
 <body>
-    <div class="app">
+    <div class="container">
         <h1>С Днём Рождения, Даша 🎂💫</h1>
 
-        <button id="playButton">Нажми 🎵</button>
+        <button id="playButton">🎵 Нажми чтобы начать 🎵</button>
         
-        <div id="loading" class="loading">Загрузка музыки...</div>
+        <div id="loader" class="loader">Загрузка...</div>
         
-        <div id="browserMessage">
-            <p>Ваш браузер может блокировать автовоспроизведение.</p>
-            <p>Нажмите "Разрешить", если появится запрос.</p>
-            <button onclick="hideBrowserMessage()">Понятно</button>
+        <div id="browserMessage" class="message">
+            <p><strong>Внимание!</strong></p>
+            <p>Браузер может запросить разрешение на воспроизведение музыки.</p>
+            <p>Пожалуйста, нажмите "Разрешить" в появившемся окне.</p>
+            <button onclick="hideMessage('browserMessage')">Понятно</button>
         </div>
 
-        <div id="errorMessage">
-            <p>Не удалось запустить музыку. Пожалуйста:</p>
+        <div id="errorMessage" class="message">
+            <p><strong>Не удалось запустить музыку</strong></p>
+            <p>Возможные решения:</p>
             <ul style="text-align: left; margin: 10px 20px;">
-                <li>Обновите страницу</li>
-                <li>Разрешите воспроизведение звука</li>
+                <li>Обновите страницу (F5)</li>
+                <li>Нажмите "Разрешить" если браузер спросит</li>
+                <li>Проверьте громкость устройства</li>
                 <li>Попробуйте другой браузер</li>
             </ul>
             <button onclick="retryPlay()">Попробовать снова</button>
         </div>
 
         <!-- Декоративные элементы -->
-        <img class="decorative-image flag" src="images/flag.png" alt="Флаг" 
-             onerror="this.style.display='none'; document.getElementById('flagFallback').style.display='block';">
-        <div id="flagFallback" class="fallback-image" style="position:absolute; top:10%; right:5%;">🎌 Флаг</div>
+        <img class="deco flag" src="images/flag.png" alt="Флаг" onerror="this.style.display='none'">
+        <img class="deco cookie" src="images/cookie.png" alt="Печенька" onerror="this.style.display='none'">
+        <img class="deco naruto" src="images/naruto.png" alt="Наруто" onerror="this.style.display='none'">
+        <img class="deco sakura" src="images/sakura.png" alt="Сакура" onerror="this.style.display='none'">
+        <img class="deco wanpis" src="images/wanpis.png" alt="Ван Пис" onerror="this.style.display='none'">
 
-        <img class="decorative-image cookie" src="images/cookie.png" alt="Печенька"
-             onerror="this.style.display='none'; document.getElementById('cookieFallback').style.display='block';">
-        <div id="cookieFallback" class="fallback-image" style="position:absolute; bottom:10%; left:5%;">🍪 Печенька</div>
-
-        <!-- Персонажи -->
-        <img class="decorative-image character naruto" src="images/naruto.png" alt="Наруто"
-             onerror="this.style.display='none'; document.getElementById('narutoFallback').style.display='block';">
-        <div id="narutoFallback" class="fallback-image" style="position:absolute; top:15%; left:5%;">🍥 Наруто</div>
-
-        <img class="decorative-image character sakura" src="images/sakura.png" alt="Сакура"
-             onerror="this.style.display='none'; document.getElementById('sakuraFallback').style.display='block';">
-        <div id="sakuraFallback" class="fallback-image" style="position:absolute; bottom:20%; right:8%;">🌸 Сакура</div>
-
-        <img class="decorative-image character wanpis" src="images/wanpis.png" alt="Ван Пис"
-             onerror="this.style.display='none'; document.getElementById('wanpisFallback').style.display='block';">
-        <div id="wanpisFallback" class="fallback-image" style="position:absolute; bottom:15%; left:10%;">🏴‍☠️ Ван Пис</div>
-
-        <!-- Аудио с множественными источниками -->
-        <audio id="bgm" preload="metadata" loop>
+        <!-- Аудио -->
+        <audio id="music" preload="metadata" loop>
             <source src="music/papa_temnogo_princa.mp3" type="audio/mpeg">
             <source src="music/papa_temnogo_princa.ogg" type="audio/ogg">
-            <source src="music/papa_temnogo_princa.wav" type="audio/wav">
-            Ваш браузер не поддерживает аудио элементы.
+            Ваш браузер не поддерживает аудио.
         </audio>
 
-        <div id="equalizer">
-            <canvas id="equalizerCanvas"></canvas>
+        <!-- Визуализатор -->
+        <div id="visualizer">
+            <!-- Барсы будут созданы через JS -->
         </div>
 
         <footer>
@@ -277,143 +271,211 @@ footer {
     </div>
 
 <script>
-// Глобальные переменные
+// ========== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ==========
+let musicStarted = false;
 let audioContext = null;
 let analyser = null;
 let dataArray = null;
-let animationId = null;
-let photoInterval = null;
+let animationFrame = null;
+let particlesInterval = null;
+let bubblesInterval = null;
 let snowInterval = null;
-let musicStarted = false;
 
-// Элементы DOM
-const playButton = document.getElementById('playButton');
-const bgm = document.getElementById('bgm');
-const loading = document.getElementById('loading');
-const errorMessage = document.getElementById('errorMessage');
-const browserMessage = document.getElementById('browserMessage');
-const canvas = document.getElementById('equalizerCanvas');
-const ctx = canvas.getContext('2d');
+// ========== DOM ЭЛЕМЕНТЫ ==========
+const elements = {
+    playButton: document.getElementById('playButton'),
+    music: document.getElementById('music'),
+    loader: document.getElementById('loader'),
+    errorMessage: document.getElementById('errorMessage'),
+    browserMessage: document.getElementById('browserMessage'),
+    visualizer: document.getElementById('visualizer')
+};
 
-// Проверка поддержки браузером
-function checkBrowserSupport() {
-    const supports = {
-        audio: !!document.createElement('audio').canPlayType,
-        canvas: !!window.CanvasRenderingContext2D,
-        requestAnimationFrame: !!window.requestAnimationFrame,
-        webAudio: !!(window.AudioContext || window.webkitAudioContext),
-        touch: 'ontouchstart' in window
-    };
+// ========== ОСНОВНАЯ ФУНКЦИЯ ЗАПУСКА ==========
+async function startMusic() {
+    if (musicStarted) return;
     
-    console.log('Поддержка браузера:', supports);
-    return supports;
-}
-
-// Показ сообщения для браузера
-function showBrowserMessage() {
-    browserMessage.style.display = 'block';
-}
-
-function hideBrowserMessage() {
-    browserMessage.style.display = 'none';
-}
-
-// Показ ошибки
-function showError() {
-    errorMessage.style.display = 'block';
-}
-
-function hideError() {
-    errorMessage.style.display = 'none';
-}
-
-// Попытка воспроизведения
-function retryPlay() {
+    console.log('Попытка запуска музыки...');
+    
+    // Показываем загрузку
+    showLoader();
     hideError();
-    startMusic();
-}
-
-// Инициализация аудио контекста
-function initAudioContext() {
-    if (audioContext) return;
     
     try {
-        // Создаем AudioContext с проверкой на разные браузеры
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        if (AudioContextClass) {
-            audioContext = new AudioContextClass();
-            
-            // Создаем анализатор
+        // Сбрасываем аудио на начало
+        elements.music.currentTime = 0;
+        
+        // Пытаемся воспроизвести
+        const playPromise = elements.music.play();
+        
+        if (playPromise !== undefined) {
+            await playPromise;
+            // УСПЕХ!
+            onMusicSuccess();
+        }
+        
+    } catch (error) {
+        console.error('Ошибка воспроизведения:', error);
+        onMusicError(error);
+    }
+}
+
+// ========== УСПЕШНЫЙ ЗАПУСК ==========
+function onMusicSuccess() {
+    console.log('Музыка успешно запущена!');
+    musicStarted = true;
+    
+    // Скрываем кнопку
+    elements.playButton.classList.add('hidden');
+    hideLoader();
+    
+    // Запускаем визуальные эффекты
+    initVisualizer();
+    startVisualizer();
+    startParticles();
+    startBubbles();
+    startSnow();
+    
+    // Скрываем декоративные элементы через время
+    setTimeout(() => {
+        document.querySelectorAll('.deco').forEach(el => {
+            el.style.opacity = '0.3';
+            el.style.transition = 'opacity 1s ease';
+        });
+    }, 1000);
+}
+
+// ========== ОБРАБОТКА ОШИБОК ==========
+function onMusicError(error) {
+    console.log('Тип ошибки:', error.name);
+    hideLoader();
+    
+    // Разные сообщения для разных ошибок
+    if (error.name === 'NotAllowedError') {
+        showError('Браузер заблокировал автовоспроизведение. Нажмите "Разрешить" если появится запрос, затем обновите страницу.');
+    } else if (error.name === 'NotSupportedError') {
+        showError('Формат аудио не поддерживается вашим браузером.');
+    } else {
+        showError('Не удалось запустить музыку. Попробуйте обновить страницу или использовать другой браузер.');
+    }
+    
+    musicStarted = false;
+}
+
+// ========== ВИЗУАЛИЗАТОР ==========
+function initVisualizer() {
+    // Создаем 20 барсов для визуализатора
+    elements.visualizer.innerHTML = '';
+    for (let i = 0; i < 20; i++) {
+        const bar = document.createElement('div');
+        bar.className = 'visualizer-bar';
+        bar.style.height = '10px';
+        elements.visualizer.appendChild(bar);
+    }
+    elements.visualizer.style.display = 'block';
+    
+    // Инициализируем AudioContext если поддерживается
+    try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+            audioContext = new AudioCtx();
             analyser = audioContext.createAnalyser();
-            analyser.fftSize = 256;
-            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            analyser.fftSize = 64;
             
-            // Подключаем к элементу audio
-            const source = audioContext.createMediaElementSource(bgm);
+            const source = audioContext.createMediaElementSource(elements.music);
             source.connect(analyser);
             analyser.connect(audioContext.destination);
             
-            console.log('AudioContext создан');
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
         }
-    } catch (error) {
-        console.warn('AudioContext не поддерживается:', error);
+    } catch (e) {
+        console.log('Web Audio API не поддерживается, используем простую анимацию');
     }
 }
 
-// Настройка эквалайзера
-function setupEqualizer() {
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = Math.max(1, Math.round(rect.width));
-    canvas.height = Math.max(1, Math.round(rect.height));
-}
-
-function drawEqualizer() {
-    if (!analyser) return;
+function startVisualizer() {
+    if (!elements.visualizer.style.display === 'block') return;
     
-    animationId = requestAnimationFrame(drawEqualizer);
-    
-    analyser.getByteFrequencyData(dataArray);
-    const width = canvas.width;
-    const height = canvas.height;
-    
-    ctx.clearRect(0, 0, width, height);
-    
-    // Простая визуализация для совместимости
-    const barWidth = (width / dataArray.length) * 2.5;
-    let x = 0;
-    
-    for (let i = 0; i < dataArray.length; i++) {
-        const barHeight = (dataArray[i] / 255) * height;
+    function updateVisualizer() {
+        const bars = elements.visualizer.getElementsByClassName('visualizer-bar');
         
-        const gradient = ctx.createLinearGradient(0, height, 0, height - barHeight);
-        gradient.addColorStop(0, '#8a2be2');
-        gradient.addColorStop(1, '#b080ff');
+        if (analyser && dataArray) {
+            // Реальный эквалайзер
+            analyser.getByteFrequencyData(dataArray);
+            for (let i = 0; i < bars.length; i++) {
+                const value = dataArray[i] || Math.random() * 100;
+                const height = 10 + (value / 255) * 50;
+                bars[i].style.height = height + 'px';
+                
+                // Цвет based на высоте
+                const intensity = value / 255;
+                bars[i].style.background = `linear-gradient(to top, 
+                    hsl(270, 100%, ${50 + intensity * 30}%), 
+                    hsl(260, 100%, ${60 + intensity * 20}%))`;
+            }
+        } else {
+            // Простая анимация если нет Web Audio API
+            for (let i = 0; i < bars.length; i++) {
+                const height = 10 + Math.sin(Date.now() / 200 + i * 0.3) * 30 + Math.random() * 20;
+                bars[i].style.height = Math.max(10, height) + 'px';
+            }
+        }
         
-        ctx.fillStyle = gradient;
-        ctx.fillRect(x, height - barHeight, barWidth, barHeight);
-        
-        x += barWidth + 1;
+        animationFrame = requestAnimationFrame(updateVisualizer);
     }
+    
+    updateVisualizer();
 }
 
-// Создание фото-пузырьков
-function createPhotoBubble() {
+// ========== ЧАСТИЦЫ ==========
+function startParticles() {
+    particlesInterval = setInterval(() => {
+        createParticle();
+    }, 200);
+}
+
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.innerHTML = '✨';
+    
+    const size = 10 + Math.random() * 20;
+    particle.style.fontSize = size + 'px';
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.top = '100vh';
+    
+    document.body.appendChild(particle);
+    
+    setTimeout(() => {
+        if (particle.parentNode) {
+            particle.parentNode.removeChild(particle);
+        }
+    }, 3000);
+}
+
+// ========== ПУЗЫРЬКИ ==========
+function startBubbles() {
+    bubblesInterval = setInterval(() => {
+        createBubble();
+    }, 1500);
+}
+
+function createBubble() {
     const bubble = document.createElement('div');
     bubble.className = 'photo-bubble';
     
-    // Случайный цвет градиента
+    // Случайный цвет
     const hue = Math.random() * 360;
-    bubble.style.background = `linear-gradient(45deg, hsl(${hue}, 70%, 60%), hsl(${hue + 30}, 70%, 50%))`;
+    bubble.style.background = `linear-gradient(45deg, hsl(${hue}, 100%, 65%), hsl(${hue + 30}, 100%, 55%))`;
     
     // Случайная позиция
-    const left = Math.random() * 80 + 10;
-    bubble.style.left = left + '%';
+    bubble.style.left = Math.random() * 85 + 5 + 'vw';
     
-    // Случайная задержка и длительность
-    const delay = Math.random() * 5;
+    // Случайные параметры анимации
     const duration = 6 + Math.random() * 4;
-    bubble.style.animationDelay = delay + 's';
+    const delay = Math.random() * 2;
     bubble.style.animationDuration = duration + 's';
+    bubble.style.animationDelay = delay + 's';
     
     document.body.appendChild(bubble);
     
@@ -425,15 +487,21 @@ function createPhotoBubble() {
     }, (duration + delay) * 1000);
 }
 
-// Создание снежинок
+// ========== СНЕЖИНКИ ==========
+function startSnow() {
+    snowInterval = setInterval(() => {
+        createSnowflake();
+    }, 300);
+}
+
 function createSnowflake() {
     const snowflake = document.createElement('div');
     snowflake.className = 'snowflake';
     snowflake.innerHTML = '❄';
     
     snowflake.style.left = Math.random() * 100 + 'vw';
-    snowflake.style.fontSize = (8 + Math.random() * 12) + 'px';
-    snowflake.style.animationDuration = (4 + Math.random() * 6) + 's';
+    snowflake.style.fontSize = (8 + Math.random() * 15) + 'px';
+    snowflake.style.animationDuration = (5 + Math.random() * 10) + 's';
     snowflake.style.opacity = 0.3 + Math.random() * 0.4;
     
     document.body.appendChild(snowflake);
@@ -442,122 +510,97 @@ function createSnowflake() {
         if (snowflake.parentNode) {
             snowflake.parentNode.removeChild(snowflake);
         }
-    }, 10000);
+    }, 15000);
 }
 
-// Основная функция запуска музыки
-async function startMusic() {
-    if (musicStarted) return;
-    
-    hideError();
-    loading.style.display = 'block';
-    
-    try {
-        // Инициализация аудио контекста
-        initAudioContext();
-        
-        // Восстановление контекста если нужно
-        if (audioContext && audioContext.state === 'suspended') {
-            await audioContext.resume();
-        }
-        
-        // Попытка воспроизведения
-        await bgm.play();
-        
-        // Успешное воспроизведение
-        musicStarted = true;
-        playButton.classList.add('hidden');
-        loading.style.display = 'none';
-        
-        // Запуск визуальных эффектов
-        setupEqualizer();
-        drawEqualizer();
-        
-        // Интервалы для эффектов
-        photoInterval = setInterval(createPhotoBubble, 2000);
-        snowInterval = setInterval(createSnowflake, 300);
-        
-        // Скрытие декоративных элементов
-        setTimeout(() => {
-            document.querySelectorAll('.decorative-image, .fallback-image').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transition = 'opacity 1s ease';
-            });
-        }, 500);
-        
-    } catch (error) {
-        console.error('Ошибка воспроизведения:', error);
-        loading.style.display = 'none';
-        showError();
-        musicStarted = false;
+// ========== УТИЛИТЫ ==========
+function showLoader() {
+    elements.loader.style.display = 'block';
+}
+
+function hideLoader() {
+    elements.loader.style.display = 'none';
+}
+
+function showError(message) {
+    if (message) {
+        elements.errorMessage.querySelector('p').innerHTML = `<strong>Ошибка</strong><br>${message}`;
     }
+    elements.errorMessage.style.display = 'block';
 }
 
-// Обработчики событий
+function hideError() {
+    elements.errorMessage.style.display = 'none';
+}
+
+function hideMessage(elementId) {
+    document.getElementById(elementId).style.display = 'none';
+}
+
+function retryPlay() {
+    hideError();
+    startMusic();
+}
+
+// ========== ОБРАБОТЧИКИ СОБЫТИЙ ==========
 function setupEventListeners() {
     // Основной клик
-    playButton.addEventListener('click', startMusic);
+    elements.playButton.addEventListener('click', startMusic);
     
-    // Touch события
-    playButton.addEventListener('touchstart', function(e) {
+    // Touch для мобильных
+    elements.playButton.addEventListener('touchend', function(e) {
         e.preventDefault();
         startMusic();
-    }, { passive: false });
+    });
     
     // Клавиатура
-    playButton.addEventListener('keydown', function(e) {
+    elements.playButton.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 32) {
             e.preventDefault();
             startMusic();
         }
     });
     
-    // Изменение размера окна
-    window.addEventListener('resize', setupEqualizer);
-    
-    // Обработка видимости страницы
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden && audioContext) {
-            audioContext.suspend();
-        } else if (musicStarted && audioContext) {
-            audioContext.resume();
-        }
-    });
+    // Автофокус на кнопке
+    elements.playButton.focus();
 }
 
-// Инициализация при загрузке
+// ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
-    const support = checkBrowserSupport();
+    console.log('Документ загружен, инициализация...');
     
-    if (!support.audio) {
-        playButton.disabled = true;
-        playButton.textContent = 'Аудио не поддерживается';
-        showError();
+    // Проверяем поддержку аудио
+    const audio = document.createElement('audio');
+    if (!audio.canPlayType || !audio.canPlayType('audio/mpeg')) {
+        elements.playButton.disabled = true;
+        elements.playButton.textContent = 'Аудио не поддерживается';
+        showError('Ваш браузер не поддерживает воспроизведение аудио.');
         return;
     }
     
-    // Показ сообщения для мобильных устройств
-    if (support.touch) {
-        showBrowserMessage();
-    }
-    
+    // Настраиваем обработчики
     setupEventListeners();
-    setupEqualizer();
     
     // Предзагрузка аудио
-    bgm.load();
+    elements.music.load();
     
-    console.log('Страница инициализирована');
+    // Показываем сообщение для мобильных
+    if ('ontouchstart' in window) {
+        elements.browserMessage.style.display = 'block';
+    }
+    
+    console.log('Инициализация завершена');
 });
 
-// Глобальные функции для HTML обработчиков
+// ========== ГЛОБАЛЬНЫЕ ФУНКЦИИ ==========
 window.retryPlay = retryPlay;
-window.hideBrowserMessage = hideBrowserMessage;
+window.hideMessage = hideMessage;
 
-// Очистка при закрытии
+// ========== ОЧИСТКА ==========
 window.addEventListener('beforeunload', function() {
-    if (animationId) cancelAnimationFrame(animationId);
-    if (photoInterval) clearInterval(photoInterval);
+    if (animationFrame) cancelAnimationFrame(animationFrame);
+    if (particlesInterval) clearInterval(particlesInterval);
+    if (bubblesInterval) clearInterval(bubblesInterval);
     if (snowInterval) clearInterval(snowInterval);
     if (audioContext) audioContext.close();
 });
